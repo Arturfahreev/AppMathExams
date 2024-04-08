@@ -5,8 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 public class FrameExam extends JFrame {
 
@@ -14,6 +13,7 @@ public class FrameExam extends JFrame {
     public static final int COLUMNS = 4;
     static java.util.List<JButton> listButtons = new ArrayList<>();
     static Random random = new Random();
+    static java.util.Map<String, Integer> mapTask = new HashMap<>();
 
     public FrameExam(ActionListener actionListener) {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -21,44 +21,56 @@ public class FrameExam extends JFrame {
         this.setSize(Main.screen.width, Main.screen.height);
         this.setResizable(false);
         this.addWindowListener(new ExamWindowAdapter());
-        System.out.println();
-        setButtonsOnExamFrame(actionListener);
+
+        setTasksAndButtons(actionListener);
+        //setButtonsOnExamFrame(actionListener);
     }
 
-    private void setButtonsOnExamFrame(ActionListener actionListener) {
-        String name = "";
+//    private void setButtonsOnExamFrame(ActionListener actionListener) {
+//        JButton button;
+//
+//        for (int i = 0; i < (ROWS * COLUMNS); i++) {
+//            button = new JButton();
+//            //button.setText(mapTask.());
+//            button.addActionListener(actionListener);
+//            listButtons.add(button);
+//            this.add(button);
+//        }
+//    }
+
+    private void setTasksAndButtons(ActionListener actionListener) {
         JButton button;
-
-        for (int i = 0; i < (ROWS * COLUMNS); i++) {
-            button = new JButton();
-            name = setTasks(button);
-            button.setText(name);
-            button.addActionListener(actionListener);
-            listButtons.add(button);
-            this.add(button);
-        }
-    }
-
-    private String setTasks(JButton button) {
-        int intOperation = random.nextInt(3);
-        int intOne = random.nextInt(100);
-        int intTwo = random.nextInt(100);
-        int result = 0;
+        int intOperation = 0;
+        int intOne = 0;
+        int intTwo = 0;
+        int resultInt = 0;
         String resultStr = "";
 
-        switch (intOperation) {
-            case 0 : result = intOne * intTwo;
-                resultStr = intOne + " * " + intTwo + " = ?";
-                break;
-            case 1 : result = intOne + intTwo;
-                resultStr = intOne + " + " + intTwo + " = ?";
-                break;
-            case 2 : result = intOne - intTwo;
-                resultStr = intOne + " - " + intTwo + " = ?";
-                break;
+        for (int i = 0; i < (ROWS * COLUMNS); i++) {
+            intOperation = random.nextInt(3);
+            intOne = random.nextInt(100);
+            intTwo = random.nextInt(100);
+            button = new JButton();
+            button.addActionListener(actionListener);
+
+            switch (intOperation) {
+                case 0 : resultInt = intOne * intTwo;
+                    resultStr = intOne + " * " + intTwo + " = ?";
+                    break;
+                case 1 : resultInt = intOne + intTwo;
+                    resultStr = intOne + " + " + intTwo + " = ?";
+                    break;
+                case 2 : resultInt = intOne - intTwo;
+                    resultStr = intOne + " - " + intTwo + " = ?";
+                    break;
+            }
+
+            button.setText(resultStr);
+            listButtons.add(button);
+            this.add(button);
+            mapTask.put(resultStr, resultInt);
         }
-        button.setActionCommand(String.valueOf(result));
-        return resultStr;
+
     }
 
     private static class ExamWindowAdapter extends WindowAdapter {

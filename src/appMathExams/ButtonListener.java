@@ -21,6 +21,7 @@ public class ButtonListener implements ActionListener {
 
         if (e.getSource() == FrameMenu.buttonExam) {
             Main.frameExam.setVisible(true);
+
             Main.frameTask.add(FrameTask.labelTask);
             Main.frameTask.add(jButton1, FlowLayout.CENTER);
             Main.frameTask.add(jButton2, FlowLayout.CENTER);
@@ -33,14 +34,8 @@ public class ButtonListener implements ActionListener {
                 Main.frameTask.setVisible(false);
                 FrameTask.labelTask.removeAll();
                 FrameTask.labelTask.setText(button.getText());
-
-                jButton1.setText(button.getActionCommand());
-                jButton1.setActionCommand(button.getActionCommand());
-                jButton2.setText(String.valueOf(Integer.parseInt(button.getActionCommand()) + FrameExam.random.nextInt(10)));
-                jButton2.setActionCommand("");
-                jButton3.setText(String.valueOf(Integer.parseInt(button.getActionCommand()) + FrameExam.random.nextInt(10)));
-                jButton3.setActionCommand("");
-
+                int result = FrameExam.mapTask.get(button.getText());
+                setButtons(result);
                 Main.frameTask.setVisible(true);
                 return;
             }
@@ -56,5 +51,19 @@ public class ButtonListener implements ActionListener {
                 JOptionPane.showMessageDialog(null, "WRONG answer!", "Answer", JOptionPane.ERROR_MESSAGE );
             }
         }
+    }
+
+    private void setButtons(int result) {
+        String number = String.valueOf(result);
+        jButton1.setText(number); // set text (number) of right button
+        jButton1.setActionCommand(number); // remember in button right answer
+
+        int numberRandom = result + 10;
+        int numberRandom2 = numberRandom + 10;
+
+        jButton2.setText(String.valueOf(numberRandom));
+        jButton2.setActionCommand("");
+        jButton3.setText(String.valueOf(numberRandom2));
+        jButton3.setActionCommand("");
     }
 }
