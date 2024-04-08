@@ -21,7 +21,7 @@ public class FrameExam extends JFrame {
         this.setSize(Main.screen.width, Main.screen.height);
         this.setResizable(false);
         this.addWindowListener(new ExamWindowAdapter());
-        
+        System.out.println();
         setButtonsOnExamFrame(actionListener);
     }
 
