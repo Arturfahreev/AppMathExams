@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ButtonListener implements ActionListener {
+    FrameTask frameTask = new FrameTask();
     JButton jButton1 = new JButton();
     JButton jButton2 = new JButton();
     JButton jButton3 = new JButton();
@@ -14,6 +15,11 @@ public class ButtonListener implements ActionListener {
         jButton1.addActionListener(this);
         jButton2.addActionListener(this);
         jButton3.addActionListener(this);
+
+        frameTask.add(FrameTask.labelTask);
+        frameTask.add(jButton1, FlowLayout.CENTER);
+        frameTask.add(jButton2, FlowLayout.CENTER);
+        frameTask.add(jButton3, FlowLayout.CENTER);
     }
 
     @Override
@@ -21,22 +27,18 @@ public class ButtonListener implements ActionListener {
 
         if (e.getSource() == FrameMenu.buttonExam) {
             Main.frameExam.setVisible(true);
-
-            Main.frameTask.add(FrameTask.labelTask);
-            Main.frameTask.add(jButton1, FlowLayout.CENTER);
-            Main.frameTask.add(jButton2, FlowLayout.CENTER);
-            Main.frameTask.add(jButton3, FlowLayout.CENTER);
             return;
         }
 
         for (JButton button : FrameExam.listButtons ) {
             if (e.getSource() == button) {
-                Main.frameTask.setVisible(false);
-                FrameTask.labelTask.removeAll();
-                FrameTask.labelTask.setText(button.getText());
+                frameTask.setVisible(false);
+                frameTask.labelTask.removeAll();
+                frameTask.labelTask.setText(button.getText());
+
                 int result = FrameExam.mapTask.get(button.getText());
-                setButtons(result);
-                Main.frameTask.setVisible(true);
+                this.setButtons(result);
+                frameTask.setVisible(true);
                 return;
             }
         }

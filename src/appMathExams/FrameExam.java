@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 import java.util.*;
 
 public class FrameExam extends JFrame {
+    ActionListener actionListener;
 
     public static final int ROWS = 4;
     public static final int COLUMNS = 4;
@@ -21,24 +22,15 @@ public class FrameExam extends JFrame {
         this.setSize(Main.screen.width, Main.screen.height);
         this.setResizable(false);
         this.addWindowListener(new ExamWindowAdapter());
+        this.actionListener = actionListener;
 
-        setTasksAndButtons(actionListener);
-        //setButtonsOnExamFrame(actionListener);
+        setTasksAndButtons();
     }
 
-//    private void setButtonsOnExamFrame(ActionListener actionListener) {
-//        JButton button;
-//
-//        for (int i = 0; i < (ROWS * COLUMNS); i++) {
-//            button = new JButton();
-//            //button.setText(mapTask.());
-//            button.addActionListener(actionListener);
-//            listButtons.add(button);
-//            this.add(button);
-//        }
-//    }
+    public void setTasksAndButtons() {
+        listButtons.clear();
+        mapTask.clear();
 
-    private void setTasksAndButtons(ActionListener actionListener) {
         JButton button;
         int intOperation = 0;
         int intOne = 0;
@@ -64,7 +56,6 @@ public class FrameExam extends JFrame {
                     resultStr = intOne + " - " + intTwo + " = ?";
                     break;
             }
-
             button.setText(resultStr);
             listButtons.add(button);
             this.add(button);
@@ -73,12 +64,13 @@ public class FrameExam extends JFrame {
 
     }
 
-    private static class ExamWindowAdapter extends WindowAdapter {
+    private class ExamWindowAdapter extends WindowAdapter {
         public void windowClosing(WindowEvent e) {
             int answer = JOptionPane.showConfirmDialog(null, "Are sure to exit exam?", "Caution!", JOptionPane.YES_NO_OPTION);
             if (answer == JOptionPane.YES_OPTION) {
-                JOptionPane.showMessageDialog(null, "Exam is failed!", "Press Ok to exit", JOptionPane.WARNING_MESSAGE );
                 Main.frameExam.setVisible(false);
+                Main.frameExam.getContentPane().removeAll();
+                Main.frameExam.setTasksAndButtons();
             }
         }
     }
