@@ -3,6 +3,8 @@ package appMathExams;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FrameTask extends JFrame {
     static Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -13,6 +15,9 @@ public class FrameTask extends JFrame {
     private JButton jButton2 = new JButton();
     private JButton jButton3 = new JButton();
     private JButton jButton4 = new JButton();
+
+    private java.util.List<JButton> listOfButtons = new ArrayList<>();
+
 
 
     public FrameTask(ActionListener actionListener) {
@@ -39,6 +44,12 @@ public class FrameTask extends JFrame {
         this.add(jButton3, FlowLayout.CENTER);
         this.add(jButton4, FlowLayout.CENTER);
 
+        listOfButtons.add(jButton1);
+        listOfButtons.add(jButton2);
+        listOfButtons.add(jButton3);
+        listOfButtons.add(jButton4);
+
+
         this.setVisible(false);
     }
 
@@ -60,5 +71,9 @@ public class FrameTask extends JFrame {
 
     public JButton getjButton4() {
         return jButton4;
+    }
+
+    public List<JButton> getListOfButtons() {
+        return listOfButtons;
     }
 }

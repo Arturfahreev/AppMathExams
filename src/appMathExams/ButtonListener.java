@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class ButtonListener implements ActionListener {
@@ -13,6 +15,8 @@ public class ButtonListener implements ActionListener {
     FrameExam frameExam; // need to invoke setter
     FrameTask frameTask; // need to invoke setter
     String question = "";
+    String rightAnswerStr = "";
+    List<JButton> listOfButtons;
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -54,70 +58,18 @@ public class ButtonListener implements ActionListener {
     }
 
     private void setNewButtons(int rightAnswer) {
-        String rightAnswerStr = String.valueOf(rightAnswer);
-        int number2 = rightAnswer + 10;
-        int number3 = number2 + 10;
-        int number4 = number3 + 10;
-        int intOperation = random.nextInt(4);
+        rightAnswerStr = String.valueOf(rightAnswer);
+        listOfButtons = frameTask.getListOfButtons();
+        int wrongAnswer = rightAnswer + 10;
+        int randomButton = random.nextInt(listOfButtons.size());
 
-        switch (intOperation) {
-            case 0 :
-                frameTask.getjButton1().setText(rightAnswerStr); // set text (number) of right button
-                frameTask.getjButton1().setActionCommand(rightAnswerStr); // remember in button
-
-                frameTask.getjButton2().setText(String.valueOf(number2));
-                frameTask.getjButton2().setActionCommand(""); // it is wrong answer
-
-                frameTask.getjButton3().setText(String.valueOf(number3));
-                frameTask.getjButton3().setActionCommand(""); // it is wrong answer
-
-                frameTask.getjButton4().setText(String.valueOf(number4));
-                frameTask.getjButton4().setActionCommand(""); // it is wrong answer
-                break;
-
-            case 1 :
-                frameTask.getjButton1().setText(String.valueOf(number2));
-                frameTask.getjButton1().setActionCommand("");
-
-                frameTask.getjButton2().setText(rightAnswerStr);
-                frameTask.getjButton2().setActionCommand(rightAnswerStr);
-
-                frameTask.getjButton3().setText(String.valueOf(number3));
-                frameTask.getjButton3().setActionCommand("");
-
-                frameTask.getjButton4().setText(String.valueOf(number4));
-                frameTask.getjButton4().setActionCommand("");
-
-                break;
-
-            case 2 :
-                frameTask.getjButton1().setText(String.valueOf(number2));
-                frameTask.getjButton1().setActionCommand("");
-
-                frameTask.getjButton2().setText(String.valueOf(number3));
-                frameTask.getjButton2().setActionCommand("");
-
-                frameTask.getjButton3().setText(rightAnswerStr);
-                frameTask.getjButton3().setActionCommand(rightAnswerStr);
-
-                frameTask.getjButton4().setText(String.valueOf(number4));
-                frameTask.getjButton4().setActionCommand("");
-                break;
-
-            case 3 :
-                frameTask.getjButton1().setText(String.valueOf(number2));
-                frameTask.getjButton1().setActionCommand("");
-
-                frameTask.getjButton2().setText(String.valueOf(number3));
-                frameTask.getjButton2().setActionCommand("");
-
-                frameTask.getjButton3().setText(String.valueOf(number4));
-                frameTask.getjButton3().setActionCommand("");
-
-                frameTask.getjButton4().setText(rightAnswerStr);
-                frameTask.getjButton4().setActionCommand(rightAnswerStr);
-                break;
+        for (JButton button : listOfButtons) {
+            button.setText(String.valueOf(wrongAnswer));
+            button.setActionCommand("");
+            wrongAnswer += 10;
         }
+        listOfButtons.get(randomButton).setText(rightAnswerStr); //set right answer to random button
+        listOfButtons.get(randomButton).setActionCommand(rightAnswerStr); // can to check that buttons contains right answer
     }
 
     public void setFrameMenu(FrameMenu frameMenu) {
