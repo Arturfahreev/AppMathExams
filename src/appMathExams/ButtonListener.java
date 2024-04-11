@@ -16,11 +16,13 @@ public class ButtonListener implements ActionListener {
     FrameTask frameTask; // need to invoke setter
     String question = "";
     String rightAnswerStr = "";
-    List<JButton> listOfButtons;
+    List<JButton> listOfTaskButtons;
+    JButton currentPushedExamButton;
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        // set FrameExam when EXAM button was pushed
         if (e.getSource() == frameMenu.getButtonExam()) {
             if (frameExam != null) {
                 frameExam.setVisible(true);
@@ -28,48 +30,62 @@ public class ButtonListener implements ActionListener {
             return;
         }
 
+        // showing TaskFrame with questions and answers
         if (frameExam != null && frameTask != null) {
+            if (listOfTaskButtons == null) {
+                listOfTaskButtons = frameTask.getListOfButtons();
+            }
             for (JButton button : frameExam.getListButtons() ) {
                 if (e.getSource() == button) {
+                    currentPushedExamButton = button;
                     question = button.getText();
 
                     frameTask.setVisible(false);
                     frameTask.getLabelTask().removeAll();
                     frameTask.getLabelTask().setText(question);
 
-                    int rightAnswer = frameExam.getMapTask().get(question);
-                    this.setNewButtons(rightAnswer);
-                    frameTask.setVisible(true);
-                    return;
+                    try {
+                        int rightAnswer = frameExam.getMapTask().get(question); // receive right answer
+                        this.setNewButtons(rightAnswer); //set right answer to random button
+                        frameTask.setVisible(true);
+                        return;
+                    } catch (NullPointerException ex) {
+                        return;
+                    }
+
                 }
             }
         }
 
-        if (e.getSource() instanceof JButton button) {
-            System.out.println(button.getText());
-            System.out.println(button.getActionCommand());
+        //checking whether pushed button right or wrong answer
+        for (JButton button : listOfTaskButtons) {
+            if (e.getSource() == button) {
+                currentPushedExamButton.setText(""); // erasing text on one of tasks in FrameExam
 
-            if (button.getText().equals(button.getActionCommand())) {
-                JOptionPane.showMessageDialog(null, "RIGHT answer!", "Answer", JOptionPane.INFORMATION_MESSAGE );
-            } else {
-                JOptionPane.showMessageDialog(null, "WRONG answer!", "Answer", JOptionPane.ERROR_MESSAGE );
+                if (button.getText().equals(button.getActionCommand())) {
+                    JOptionPane.showMessageDialog(null, "RIGHT answer!", "Answer", JOptionPane.INFORMATION_MESSAGE );
+                } else {
+                    JOptionPane.showMessageDialog(null, "WRONG answer!", "Answer", JOptionPane.ERROR_MESSAGE );
+                }
+                frameTask.setVisible(false);
+                return;
             }
         }
     }
 
     private void setNewButtons(int rightAnswer) {
         rightAnswerStr = String.valueOf(rightAnswer);
-        listOfButtons = frameTask.getListOfButtons();
+        //listOfTaskButtons = frameTask.getListOfButtons();
         int wrongAnswer = rightAnswer + 10;
-        int randomButton = random.nextInt(listOfButtons.size());
+        int randomButton = random.nextInt(listOfTaskButtons.size());
 
-        for (JButton button : listOfButtons) {
+        for (JButton button : listOfTaskButtons) {
             button.setText(String.valueOf(wrongAnswer));
             button.setActionCommand("");
             wrongAnswer += 10;
         }
-        listOfButtons.get(randomButton).setText(rightAnswerStr); //set right answer to random button
-        listOfButtons.get(randomButton).setActionCommand(rightAnswerStr); // can to check that buttons contains right answer
+        listOfTaskButtons.get(randomButton).setText(rightAnswerStr); //set right answer to random button
+        listOfTaskButtons.get(randomButton).setActionCommand(rightAnswerStr); // can to check that buttons contains right answer
     }
 
     public void setFrameMenu(FrameMenu frameMenu) {

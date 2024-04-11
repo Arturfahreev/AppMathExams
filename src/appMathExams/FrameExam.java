@@ -32,6 +32,10 @@ public class FrameExam extends JFrame {
         setTasksAndButtons();
     }
 
+    private void setButtons () {
+
+    }
+
     public void setTasksAndButtons() { //sets Tasks and Buttons on Frame Exam
         listButtons.clear(); // clear list of buttons
         mapTask.clear(); // clear map of Tasks
