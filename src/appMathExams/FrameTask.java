@@ -5,38 +5,53 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class FrameTask extends JFrame {
-    JLabel labelTask = new JLabel();
-    ActionListener actionListener;
+    static Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+    private JLabel labelTask = new JLabel();
+    private ActionListener actionListener;
 
-    JButton jButton1 = new JButton();
-    JButton jButton2 = new JButton();
-    JButton jButton3 = new JButton();
+    private JButton jButton1 = new JButton();
+    private JButton jButton2 = new JButton();
+    private JButton jButton3 = new JButton();
 
 
-    public FrameTask() {
+    public FrameTask(ActionListener actionListener) {
+        this.actionListener = actionListener;
+
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setLayout(new FlowLayout());
-        this.setSize(Main.screen.width / 2, Main.screen.height / 2);
+        this.setSize(screen.width / 2, screen.height / 2);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        this.setVisible(false);
 
         labelTask.setPreferredSize(new Dimension((int) (this.getWidth()), (int) this.getHeight() / 2));
         labelTask.setFont(new Font(null, Font.BOLD, 40));
         labelTask.setHorizontalAlignment(JLabel.CENTER);
 
+        jButton1.addActionListener(actionListener);
+        jButton2.addActionListener(actionListener);
+        jButton3.addActionListener(actionListener);
+
         this.add(labelTask);
         this.add(jButton1, FlowLayout.CENTER);
         this.add(jButton2, FlowLayout.CENTER);
         this.add(jButton3, FlowLayout.CENTER);
+
+        this.setVisible(false);
     }
 
-    public void setActionListener(ActionListener actionListener) {
-        this.actionListener = actionListener;
-
-        jButton1.addActionListener(actionListener);
-        jButton2.addActionListener(actionListener);
-        jButton3.addActionListener(actionListener);
+    public JLabel getLabelTask() {
+        return labelTask;
     }
 
+    public JButton getjButton1() {
+        return jButton1;
+    }
+
+    public JButton getjButton2() {
+        return jButton2;
+    }
+
+    public JButton getjButton3() {
+        return jButton3;
+    }
 }

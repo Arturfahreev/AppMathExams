@@ -6,28 +6,33 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ButtonListener implements ActionListener {
-    FrameTask frameTask = new FrameTask();
+    FrameMenu frameMenu;
+    FrameExam frameExam;
+    FrameTask frameTask;
+    String text = "";
 
     public ButtonListener() {
-        frameTask.setActionListener(this);
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == FrameMenu.buttonExam) {
-            Main.frameExam.setVisible(true);
+        if (e.getSource() == frameMenu.buttonExam) {
+            frameExam.setVisible(true);
             return;
         }
 
-        for (JButton button : FrameExam.listButtons ) {
+        for (JButton button : frameExam.getListButtons() ) {
             if (e.getSource() == button) {
-                frameTask.setVisible(false);
-                frameTask.labelTask.removeAll();
-                frameTask.labelTask.setText(button.getText());
+                text = button.getText();
 
-                int result = FrameExam.mapTask.get(button.getText());
-                this.setButtons(result);
+                frameTask.setVisible(false);
+                frameTask.getLabelTask().removeAll();
+                frameTask.getLabelTask().setText(text);
+
+                int result = frameExam.getMapTask().get(text);
+                this.setNewButtons(result);
                 frameTask.setVisible(true);
                 return;
             }
@@ -45,17 +50,31 @@ public class ButtonListener implements ActionListener {
         }
     }
 
-    private void setButtons(int result) {
+    private void setNewButtons(int result) {
         String number = String.valueOf(result);
-        frameTask.jButton1.setText(number); // set text (number) of right button
-        frameTask.jButton1.setActionCommand(number); // remember in button right answer
+
+        frameTask.getjButton1().setText(number); // set text (number) of right button
+        frameTask.getjButton1().setActionCommand(number); // remember in button right answer
 
         int numberRandom = result + 10;
         int numberRandom2 = numberRandom + 10;
 
-        frameTask.jButton2.setText(String.valueOf(numberRandom));
-        frameTask.jButton2.setActionCommand("");
-        frameTask.jButton3.setText(String.valueOf(numberRandom2));
-        frameTask.jButton3.setActionCommand("");
+        frameTask.getjButton2().setText(String.valueOf(numberRandom));
+        frameTask.getjButton2().setActionCommand(""); // it is wrong answer
+
+        frameTask.getjButton3().setText(String.valueOf(numberRandom2));
+        frameTask.getjButton3().setActionCommand(""); // it is wrong answer
+    }
+
+    public void setFrameMenu(FrameMenu frameMenu) {
+        this.frameMenu = frameMenu;
+    }
+
+    public void setFrameExam(FrameExam frameExam) {
+        this.frameExam = frameExam;
+    }
+
+    public void setFrameTask(FrameTask frameTask) {
+        this.frameTask = frameTask;
     }
 }

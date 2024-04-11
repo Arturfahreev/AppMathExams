@@ -8,8 +8,11 @@ public class FrameMenu extends JFrame {
     JLabel labelMain = new JLabel();
     static JButton buttonExam = new JButton("EXAM");
 
+    ActionListener actionListener;
+
 
     public FrameMenu(ActionListener actionListener) {
+        this.actionListener = actionListener;
 
         labelMain.setLayout(null);
         labelMain.setIcon(new ImageIcon("Background.png"));
@@ -19,6 +22,7 @@ public class FrameMenu extends JFrame {
         buttonExam.addActionListener(actionListener);
         labelMain.add(buttonExam);
 
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("MATH EXAMS");
         this.setResizable(false);
@@ -27,5 +31,4 @@ public class FrameMenu extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
-
 }

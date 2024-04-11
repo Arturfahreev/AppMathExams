@@ -6,23 +6,28 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
+import java.util.List;
 
 public class FrameExam extends JFrame {
-    ActionListener actionListener;
-
-    public static final int ROWS = 4;
-    public static final int COLUMNS = 4;
-    static java.util.List<JButton> listButtons = new ArrayList<>();
+    static final int ROWS = 4;
+    static final int COLUMNS = 4;
     static Random random = new Random();
-    static java.util.Map<String, Integer> mapTask = new HashMap<>();
+    static Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+
+    private ActionListener actionListener;
+
+    private java.util.List<JButton> listButtons = new ArrayList<>();
+    private java.util.Map<String, Integer> mapTask = new HashMap<>();
 
     public FrameExam(ActionListener actionListener) {
+        this.actionListener = actionListener;
+
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setLayout(new GridLayout(ROWS, COLUMNS));
-        this.setSize(Main.screen.width, Main.screen.height);
+        this.setSize(screen.width, screen.height);
         this.setResizable(false);
         this.addWindowListener(new ExamWindowAdapter());
-        this.actionListener = actionListener;
+        this.setVisible(false);
 
         setTasksAndButtons();
     }
@@ -68,11 +73,18 @@ public class FrameExam extends JFrame {
         public void windowClosing(WindowEvent e) { // if close Exam Frame
             int answer = JOptionPane.showConfirmDialog(null, "Are sure to exit exam?", "Caution!", JOptionPane.YES_NO_OPTION);
             if (answer == JOptionPane.YES_OPTION) {
-                Main.frameExam.setVisible(false);
-                Main.frameExam.getContentPane().removeAll(); // remove all from Exam Frame
-                Main.frameExam.setTasksAndButtons(); // set new Tasks and Buttons before user push Exam button
+                FrameExam.this.setVisible(false);
+                FrameExam.this.getContentPane().removeAll(); // remove all from Exam Frame
+                FrameExam.this.setTasksAndButtons(); // set new Tasks and Buttons before user push Exam button
             }
         }
     }
 
+    public List<JButton> getListButtons() {
+        return listButtons;
+    }
+
+    public Map<String, Integer> getMapTask() {
+        return mapTask;
+    }
 }
