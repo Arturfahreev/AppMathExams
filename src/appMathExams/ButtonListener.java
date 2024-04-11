@@ -4,16 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class ButtonListener implements ActionListener {
-    FrameMenu frameMenu;
-    FrameExam frameExam;
-    FrameTask frameTask;
+    static Random random = new Random();
+
+    FrameMenu frameMenu; // need to invoke setter
+    FrameExam frameExam; // need to invoke setter
+    FrameTask frameTask; // need to invoke setter
     String question = "";
-
-    public ButtonListener() {
-
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -56,18 +55,69 @@ public class ButtonListener implements ActionListener {
 
     private void setNewButtons(int rightAnswer) {
         String rightAnswerStr = String.valueOf(rightAnswer);
+        int number2 = rightAnswer + 10;
+        int number3 = number2 + 10;
+        int number4 = number3 + 10;
+        int intOperation = random.nextInt(4);
 
-        frameTask.getjButton1().setText(rightAnswerStr); // set text (number) of right button
-        frameTask.getjButton1().setActionCommand(rightAnswerStr); // remember in button right answer
+        switch (intOperation) {
+            case 0 :
+                frameTask.getjButton1().setText(rightAnswerStr); // set text (number) of right button
+                frameTask.getjButton1().setActionCommand(rightAnswerStr); // remember in button
 
-        int numberRandom = rightAnswer + 10;
-        int numberRandom2 = numberRandom + 10;
+                frameTask.getjButton2().setText(String.valueOf(number2));
+                frameTask.getjButton2().setActionCommand(""); // it is wrong answer
 
-        frameTask.getjButton2().setText(String.valueOf(numberRandom));
-        frameTask.getjButton2().setActionCommand(""); // it is wrong answer
+                frameTask.getjButton3().setText(String.valueOf(number3));
+                frameTask.getjButton3().setActionCommand(""); // it is wrong answer
 
-        frameTask.getjButton3().setText(String.valueOf(numberRandom2));
-        frameTask.getjButton3().setActionCommand(""); // it is wrong answer
+                frameTask.getjButton4().setText(String.valueOf(number4));
+                frameTask.getjButton4().setActionCommand(""); // it is wrong answer
+                break;
+
+            case 1 :
+                frameTask.getjButton1().setText(String.valueOf(number2));
+                frameTask.getjButton1().setActionCommand("");
+
+                frameTask.getjButton2().setText(rightAnswerStr);
+                frameTask.getjButton2().setActionCommand(rightAnswerStr);
+
+                frameTask.getjButton3().setText(String.valueOf(number3));
+                frameTask.getjButton3().setActionCommand("");
+
+                frameTask.getjButton4().setText(String.valueOf(number4));
+                frameTask.getjButton4().setActionCommand("");
+
+                break;
+
+            case 2 :
+                frameTask.getjButton1().setText(String.valueOf(number2));
+                frameTask.getjButton1().setActionCommand("");
+
+                frameTask.getjButton2().setText(String.valueOf(number3));
+                frameTask.getjButton2().setActionCommand("");
+
+                frameTask.getjButton3().setText(rightAnswerStr);
+                frameTask.getjButton3().setActionCommand(rightAnswerStr);
+
+                frameTask.getjButton4().setText(String.valueOf(number4));
+                frameTask.getjButton4().setActionCommand("");
+                break;
+
+            case 3 :
+                frameTask.getjButton1().setText(String.valueOf(number2));
+                frameTask.getjButton1().setActionCommand("");
+
+                frameTask.getjButton2().setText(String.valueOf(number3));
+                frameTask.getjButton2().setActionCommand("");
+
+                frameTask.getjButton3().setText(String.valueOf(number4));
+                frameTask.getjButton3().setActionCommand("");
+
+                frameTask.getjButton4().setText(rightAnswerStr);
+                frameTask.getjButton4().setActionCommand(rightAnswerStr);
+                break;
+        }
     }
 
     public void setFrameMenu(FrameMenu frameMenu) {
