@@ -2,9 +2,15 @@ package appMathExams;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class FrameTask extends JFrame {
-    static JLabel labelTask = new JLabel();
+    JLabel labelTask = new JLabel();
+    ActionListener actionListener;
+
+    JButton jButton1 = new JButton();
+    JButton jButton2 = new JButton();
+    JButton jButton3 = new JButton();
 
 
     public FrameTask() {
@@ -20,6 +26,17 @@ public class FrameTask extends JFrame {
         labelTask.setHorizontalAlignment(JLabel.CENTER);
 
         this.add(labelTask);
+        this.add(jButton1, FlowLayout.CENTER);
+        this.add(jButton2, FlowLayout.CENTER);
+        this.add(jButton3, FlowLayout.CENTER);
+    }
+
+    public void setActionListener(ActionListener actionListener) {
+        this.actionListener = actionListener;
+
+        jButton1.addActionListener(actionListener);
+        jButton2.addActionListener(actionListener);
+        jButton3.addActionListener(actionListener);
     }
 
 }

@@ -7,18 +7,9 @@ import java.awt.event.ActionListener;
 
 public class ButtonListener implements ActionListener {
     FrameTask frameTask = new FrameTask();
-    JButton jButton1 = new JButton();
-    JButton jButton2 = new JButton();
-    JButton jButton3 = new JButton();
 
     public ButtonListener() {
-        jButton1.addActionListener(this);
-        jButton2.addActionListener(this);
-        jButton3.addActionListener(this);
-
-        frameTask.add(jButton1, FlowLayout.CENTER);
-        frameTask.add(jButton2, FlowLayout.CENTER);
-        frameTask.add(jButton3, FlowLayout.CENTER);
+        frameTask.setActionListener(this);
     }
 
     @Override
@@ -56,15 +47,15 @@ public class ButtonListener implements ActionListener {
 
     private void setButtons(int result) {
         String number = String.valueOf(result);
-        jButton1.setText(number); // set text (number) of right button
-        jButton1.setActionCommand(number); // remember in button right answer
+        frameTask.jButton1.setText(number); // set text (number) of right button
+        frameTask.jButton1.setActionCommand(number); // remember in button right answer
 
         int numberRandom = result + 10;
         int numberRandom2 = numberRandom + 10;
 
-        jButton2.setText(String.valueOf(numberRandom));
-        jButton2.setActionCommand("");
-        jButton3.setText(String.valueOf(numberRandom2));
-        jButton3.setActionCommand("");
+        frameTask.jButton2.setText(String.valueOf(numberRandom));
+        frameTask.jButton2.setActionCommand("");
+        frameTask.jButton3.setText(String.valueOf(numberRandom2));
+        frameTask.jButton3.setActionCommand("");
     }
 }
