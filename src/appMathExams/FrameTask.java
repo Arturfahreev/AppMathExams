@@ -8,16 +8,18 @@ public class FrameTask extends JFrame {
 
 
     public FrameTask() {
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setLayout(new FlowLayout());
         this.setSize(Main.screen.width / 2, Main.screen.height / 2);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(false);
 
-        labelTask.setPreferredSize(new Dimension((int) (Main.screen.getWidth()), (int) Main.screen.getHeight() / 3));
+        labelTask.setPreferredSize(new Dimension((int) (this.getWidth()), (int) this.getHeight() / 2));
         labelTask.setFont(new Font(null, Font.BOLD, 40));
         labelTask.setHorizontalAlignment(JLabel.CENTER);
+
+        this.add(labelTask);
     }
 
 }

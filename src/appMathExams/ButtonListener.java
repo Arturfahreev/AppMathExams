@@ -16,7 +16,6 @@ public class ButtonListener implements ActionListener {
         jButton2.addActionListener(this);
         jButton3.addActionListener(this);
 
-        frameTask.add(FrameTask.labelTask);
         frameTask.add(jButton1, FlowLayout.CENTER);
         frameTask.add(jButton2, FlowLayout.CENTER);
         frameTask.add(jButton3, FlowLayout.CENTER);

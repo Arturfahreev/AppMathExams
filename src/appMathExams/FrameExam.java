@@ -27,9 +27,9 @@ public class FrameExam extends JFrame {
         setTasksAndButtons();
     }
 
-    public void setTasksAndButtons() {
-        listButtons.clear();
-        mapTask.clear();
+    public void setTasksAndButtons() { //sets Tasks and Buttons on Frame Exam
+        listButtons.clear(); // clear list of buttons
+        mapTask.clear(); // clear map of Tasks
 
         JButton button;
         int intOperation = 0;
@@ -56,21 +56,21 @@ public class FrameExam extends JFrame {
                     resultStr = intOne + " - " + intTwo + " = ?";
                     break;
             }
-            button.setText(resultStr);
-            listButtons.add(button);
-            this.add(button);
-            mapTask.put(resultStr, resultInt);
+            button.setText(resultStr); // set text of Task on button
+            listButtons.add(button); // add buttons to list
+            this.add(button); // add button of Task on Frame Exam
+            mapTask.put(resultStr, resultInt); // put Task and right answer to map
         }
 
     }
 
     private class ExamWindowAdapter extends WindowAdapter {
-        public void windowClosing(WindowEvent e) {
+        public void windowClosing(WindowEvent e) { // if close Exam Frame
             int answer = JOptionPane.showConfirmDialog(null, "Are sure to exit exam?", "Caution!", JOptionPane.YES_NO_OPTION);
             if (answer == JOptionPane.YES_OPTION) {
                 Main.frameExam.setVisible(false);
-                Main.frameExam.getContentPane().removeAll();
-                Main.frameExam.setTasksAndButtons();
+                Main.frameExam.getContentPane().removeAll(); // remove all from Exam Frame
+                Main.frameExam.setTasksAndButtons(); // set new Tasks and Buttons before user push Exam button
             }
         }
     }
