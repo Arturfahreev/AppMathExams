@@ -40,8 +40,8 @@ public class FrameExam extends JFrame {
         int intOperation = 0;
         int intOne = 0;
         int intTwo = 0;
-        int resultInt = 0;
-        String resultStr = "";
+        int rightAnswer = 0;
+        String question = "";
 
         for (int i = 0; i < (ROWS * COLUMNS); i++) {
             intOperation = random.nextInt(3);
@@ -51,20 +51,20 @@ public class FrameExam extends JFrame {
             button.addActionListener(actionListener);
 
             switch (intOperation) {
-                case 0 : resultInt = intOne * intTwo;
-                    resultStr = intOne + " * " + intTwo + " = ?";
+                case 0 : rightAnswer = intOne * intTwo;
+                    question = intOne + " * " + intTwo + " = ?";
                     break;
-                case 1 : resultInt = intOne + intTwo;
-                    resultStr = intOne + " + " + intTwo + " = ?";
+                case 1 : rightAnswer = intOne + intTwo;
+                    question = intOne + " + " + intTwo + " = ?";
                     break;
-                case 2 : resultInt = intOne - intTwo;
-                    resultStr = intOne + " - " + intTwo + " = ?";
+                case 2 : rightAnswer = intOne - intTwo;
+                    question = intOne + " - " + intTwo + " = ?";
                     break;
             }
-            button.setText(resultStr); // set text of Task on button
+            button.setText(question); // set text of Task on button
             listButtons.add(button); // add buttons to list
             this.add(button); // add button of Task on Frame Exam
-            mapTask.put(resultStr, resultInt); // put Task and right answer to map
+            mapTask.put(question, rightAnswer); // put Task and right answer to map
         }
 
     }

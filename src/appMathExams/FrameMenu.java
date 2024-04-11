@@ -5,10 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class FrameMenu extends JFrame {
-    JLabel labelMain = new JLabel();
-    static JButton buttonExam = new JButton("EXAM");
+    private JLabel labelMain = new JLabel();
+    private JButton buttonExam = new JButton("EXAM");
 
-    ActionListener actionListener;
+    private ActionListener actionListener;
 
 
     public FrameMenu(ActionListener actionListener) {
@@ -30,5 +30,9 @@ public class FrameMenu extends JFrame {
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    public JButton getButtonExam() {
+        return buttonExam;
     }
 }

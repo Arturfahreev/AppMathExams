@@ -9,7 +9,7 @@ public class ButtonListener implements ActionListener {
     FrameMenu frameMenu;
     FrameExam frameExam;
     FrameTask frameTask;
-    String text = "";
+    String question = "";
 
     public ButtonListener() {
 
@@ -18,23 +18,27 @@ public class ButtonListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == frameMenu.buttonExam) {
-            frameExam.setVisible(true);
+        if (e.getSource() == frameMenu.getButtonExam()) {
+            if (frameExam != null) {
+                frameExam.setVisible(true);
+            }
             return;
         }
 
-        for (JButton button : frameExam.getListButtons() ) {
-            if (e.getSource() == button) {
-                text = button.getText();
+        if (frameExam != null && frameTask != null) {
+            for (JButton button : frameExam.getListButtons() ) {
+                if (e.getSource() == button) {
+                    question = button.getText();
 
-                frameTask.setVisible(false);
-                frameTask.getLabelTask().removeAll();
-                frameTask.getLabelTask().setText(text);
+                    frameTask.setVisible(false);
+                    frameTask.getLabelTask().removeAll();
+                    frameTask.getLabelTask().setText(question);
 
-                int result = frameExam.getMapTask().get(text);
-                this.setNewButtons(result);
-                frameTask.setVisible(true);
-                return;
+                    int rightAnswer = frameExam.getMapTask().get(question);
+                    this.setNewButtons(rightAnswer);
+                    frameTask.setVisible(true);
+                    return;
+                }
             }
         }
 
@@ -50,13 +54,13 @@ public class ButtonListener implements ActionListener {
         }
     }
 
-    private void setNewButtons(int result) {
-        String number = String.valueOf(result);
+    private void setNewButtons(int rightAnswer) {
+        String rightAnswerStr = String.valueOf(rightAnswer);
 
-        frameTask.getjButton1().setText(number); // set text (number) of right button
-        frameTask.getjButton1().setActionCommand(number); // remember in button right answer
+        frameTask.getjButton1().setText(rightAnswerStr); // set text (number) of right button
+        frameTask.getjButton1().setActionCommand(rightAnswerStr); // remember in button right answer
 
-        int numberRandom = result + 10;
+        int numberRandom = rightAnswer + 10;
         int numberRandom2 = numberRandom + 10;
 
         frameTask.getjButton2().setText(String.valueOf(numberRandom));
