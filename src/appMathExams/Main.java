@@ -12,10 +12,12 @@ public class Main {
             FrameMenu frameMenu = new FrameMenu(buttonListener);
             FrameExam frameExam = new FrameExam(buttonListener);
             FrameTask frameTask = new FrameTask(buttonListener);
+            FrameResult frameResult = new FrameResult(buttonListener);
 
             buttonListener.setFrameMenu(frameMenu);
             buttonListener.setFrameExam(frameExam);
             buttonListener.setFrameTask(frameTask);
+            buttonListener.setFrameResult(frameResult);
         };
         SwingUtilities.invokeLater(runnable);
     }

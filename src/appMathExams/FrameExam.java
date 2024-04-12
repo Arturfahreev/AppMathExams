@@ -48,6 +48,7 @@ public class FrameExam extends JFrame {
             intOne = random.nextInt(100);
             intTwo = random.nextInt(100);
             button = new JButton();
+            button.setFont(new Font(null, Font.BOLD, 20));
             button.addActionListener(actionListener);
 
             switch (intOperation) {
@@ -67,6 +68,15 @@ public class FrameExam extends JFrame {
             mapTask.put(question, rightAnswer); // put Task and right answer to map
         }
 
+    }
+
+    public boolean checkEnableButtons() {
+        for (JButton button : listButtons) {
+            if (button.isEnabled()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private class ExamWindowAdapter extends WindowAdapter {
