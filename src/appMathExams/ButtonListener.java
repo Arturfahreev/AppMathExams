@@ -60,12 +60,20 @@ public class ButtonListener implements ActionListener {
         //checking whether pushed button right or wrong answer
         for (JButton button : listOfTaskButtons) {
             if (e.getSource() == button) {
-                currentPushedExamButton.setText(""); // erasing text on one of tasks in FrameExam
-
+                //currentPushedExamButton.setText(""); // erasing text on one of tasks in FrameExam
                 if (button.getText().equals(button.getActionCommand())) {
                     JOptionPane.showMessageDialog(null, "RIGHT answer!", "Answer", JOptionPane.INFORMATION_MESSAGE );
+                    currentPushedExamButton.setEnabled(false);
+                    currentPushedExamButton.setBackground(Color.GREEN);
+                    currentPushedExamButton.setOpaque(true);
+
                 } else {
                     JOptionPane.showMessageDialog(null, "WRONG answer!", "Answer", JOptionPane.ERROR_MESSAGE );
+                    currentPushedExamButton.setEnabled(false);
+                    currentPushedExamButton.setBackground(Color.RED);
+                    currentPushedExamButton.setOpaque(true);
+
+
                 }
                 frameTask.setVisible(false);
                 return;
