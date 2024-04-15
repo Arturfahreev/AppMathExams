@@ -27,17 +27,21 @@ public class FrameResult extends JFrame {
         this.setLocationRelativeTo(null);
         this.setLayout(null);
 
-        panel1.setBounds(0, 0, (int) (this.getWidth() / 5), this.getHeight());
-        panel2.setBounds((int) (this.getWidth() / 5), 0, (int) (this.getWidth() * 0.8), this.getHeight());
+        panel1.setBounds(0, 0, (int) (this.getWidth() * 0.2), this.getHeight() - 20);
+        panel2.setBounds((int) (this.getWidth() * 0.2), 0, (int) (this.getWidth() * 0.8), this.getHeight());
 
-        panel1.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
-        panel2.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
+        panel1.setBorder(BorderFactory.createLineBorder(Color.GRAY, 4));
+        panel2.setBorder(BorderFactory.createLineBorder(Color.RED, 4));
+        panel1.setLayout(new GridLayout(16, 1, 0, 5));
         panel2.setLayout(null);
+
         label.setBounds(0, 0, panel2.getWidth(), panel2.getHeight());
         label.setLayout(new FlowLayout());
         label.setOpaque(true);
         label.setFont(new Font(null, Font.BOLD, 30));
-        label.setHorizontalTextPosition(JLabel.CENTER);
+        label.setVerticalAlignment(JLabel.CENTER);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        //label.setHorizontalTextPosition(JLabel.CENTER);
         panel2.add(label);
 
         setListOfButtons();

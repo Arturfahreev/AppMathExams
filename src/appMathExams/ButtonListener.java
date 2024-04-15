@@ -68,7 +68,7 @@ public class ButtonListener implements ActionListener {
                     JOptionPane.showMessageDialog(null, "RIGHT answer!", "Answer", JOptionPane.INFORMATION_MESSAGE );
                     currentPushedExamButton.setText("<html>" + currentPushedExamButton.getText() + "<br />" +  "RIGHT answer: " + rightAnswerStr + "<br />" + "Your answer: " + button.getText() +  "</html>");
                     currentPushedExamButton.setEnabled(false);
-                    currentPushedExamButton.setBackground(Color.GREEN);
+                    currentPushedExamButton.setBackground(new Color(10, 150, 10));
                     currentPushedExamButton.setOpaque(true);
                     frameResult.setRightAnswers(frameResult.getRightAnswers() + 1);
                     checkFrameResult();
