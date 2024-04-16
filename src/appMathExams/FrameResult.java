@@ -13,11 +13,9 @@ public class FrameResult extends JFrame {
     private JPanel panel2 = new JPanel();
     private JLabel label = new JLabel();
     private JLabel labelAnswer = new JLabel();
-
     private int rightAnswers = 0;
     private int wrongAnswers = 0;
     private ActionListener actionListener;
-    private java.util.List<JButton> listOfTasks = new ArrayList<>();
     private java.util.List<JButton> listOfButtons = new ArrayList<>();
 
     public FrameResult(ActionListener actionListener) {
@@ -35,7 +33,6 @@ public class FrameResult extends JFrame {
         panel2.setBounds((int) (this.getWidth() * 0.2), 0, (int) (this.getWidth() * 0.8), this.getHeight() - 20);
         panel2.setLayout(new GridLayout(2,1, 0, 0));
 
-        //label.setBounds(0, 0, panel2.getWidth(), panel2.getHeight());
         label.setLayout(new FlowLayout());
         label.setBackground(Color.GRAY);
         label.setForeground(Color.WHITE);
@@ -50,7 +47,6 @@ public class FrameResult extends JFrame {
         labelAnswer.setVerticalAlignment(JLabel.CENTER);
         labelAnswer.setHorizontalAlignment(JLabel.CENTER);
 
-
         panel2.add(label);
         panel2.add(labelAnswer);
 
@@ -61,11 +57,17 @@ public class FrameResult extends JFrame {
         this.setVisible(false);
     }
 
-    public void setListOfTasks(List<JButton> listOfButtons) {
-        this.listOfTasks.addAll(listOfButtons);
-
+    public void setListOfButtons() {
+        JButton button;
+        for (int i = 1; i < FrameExam.COLUMNS * FrameExam.ROWS + 1; i++) {
+            button = new JButton();
+            button.setText("Task " + i);
+            button.addActionListener(actionListener);
+            button.setOpaque(true);
+            panel1.add(button);
+            listOfButtons.add(button);
+        }
     }
-
     public int getRightAnswers() {
         return rightAnswers;
     }
@@ -82,32 +84,12 @@ public class FrameResult extends JFrame {
         this.wrongAnswers = wrongAnswers;
     }
 
-    public void setListOfButtons() {
-        JButton button;
-        for (int i = 1; i < FrameExam.COLUMNS * FrameExam.ROWS + 1; i++) {
-            button = new JButton();
-            button.setText("Task " + i);
-            button.addActionListener(actionListener);
-            button.setOpaque(true);
-            panel1.add(button);
-            listOfButtons.add(button);
-        }
-    }
-
     public List<JButton> getListOfButtons() {
         return listOfButtons;
     }
 
-    public JPanel getPanel2() {
-        return panel2;
-    }
-
     public JLabel getLabel() {
         return label;
-    }
-
-    public void setLabel(JLabel label) {
-        this.label = label;
     }
 
     public JLabel getLabelAnswer() {
