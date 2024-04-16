@@ -9,15 +9,15 @@ import java.util.*;
 import java.util.List;
 
 public class FrameExam extends JFrame {
-    static final int ROWS = 4;
-    static final int COLUMNS = 4;
+    static final int ROWS = 4; // rows of Task on FrameExam
+    static final int COLUMNS = 4; //columns of Task on FrameExam
     static Random random = new Random();
     static Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 
     private ActionListener actionListener;
 
-    private java.util.List<JButton> listButtons = new ArrayList<>();
-    private java.util.Map<String, Integer> mapTask = new HashMap<>();
+    private java.util.List<JButton> listButtons = new ArrayList<>(); // list of buttons Tasks on FrameExam
+    private java.util.Map<String, Integer> mapTask = new HashMap<>(); // map saving next of Task and right answer
 
     public FrameExam(ActionListener actionListener) {
         this.actionListener = actionListener;
@@ -32,7 +32,7 @@ public class FrameExam extends JFrame {
         setTasksAndButtons();
     }
 
-    public void setTasksAndButtons() { //sets Tasks and Buttons on Frame Exam
+    public void setTasksAndButtons() { //sets Tasks and Buttons on FrameExam
         listButtons.clear(); // clear list of buttons
         mapTask.clear(); // clear map of Tasks
 
@@ -47,7 +47,7 @@ public class FrameExam extends JFrame {
             intOperation = random.nextInt(3);
             intOne = random.nextInt(100);
             intTwo = random.nextInt(100);
-            button = new JButton();
+            button = new JButtonColor();
             button.setFont(new Font(null, Font.BOLD, 20));
             button.addActionListener(actionListener);
 
@@ -62,14 +62,14 @@ public class FrameExam extends JFrame {
                     question = intOne + " - " + intTwo + " = ?";
                     break;
             }
-            button.setText(question); // set text of Task on button
+            button.setText(question); // set text (question) of Task on button
             listButtons.add(button); // add buttons to list
             this.add(button); // add button of Task on Frame Exam
-            mapTask.put(question, rightAnswer); // put Task and right answer to map
+            mapTask.put(question, rightAnswer); // put question// and right answer to map
         }
 
     }
-
+    // checking if there are any enable buttons on FrameExam
     public boolean checkEnableButtons() {
         for (JButton button : listButtons) {
             if (button.isEnabled()) {
@@ -96,5 +96,35 @@ public class FrameExam extends JFrame {
 
     public Map<String, Integer> getMapTask() {
         return mapTask;
+    }
+}
+
+class JButtonColor extends JButton {
+    private Color color;
+    private String rightAnswer;
+    private String userAnswer;
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return this.color;
+    }
+
+    public String getRightAnswer() {
+        return rightAnswer;
+    }
+
+    public String getUserAnswer() {
+        return userAnswer;
+    }
+
+    public void setRightAnswer(String rightAnswer) {
+        this.rightAnswer = rightAnswer;
+    }
+
+    public void setUserAnswer(String userAnswer) {
+        this.userAnswer = userAnswer;
     }
 }

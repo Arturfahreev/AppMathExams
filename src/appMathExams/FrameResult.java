@@ -12,6 +12,7 @@ public class FrameResult extends JFrame {
     private JPanel panel1 = new JPanel();
     private JPanel panel2 = new JPanel();
     private JLabel label = new JLabel();
+    private JLabel labelAnswer = new JLabel();
 
     private int rightAnswers = 0;
     private int wrongAnswers = 0;
@@ -28,26 +29,35 @@ public class FrameResult extends JFrame {
         this.setLayout(null);
 
         panel1.setBounds(0, 0, (int) (this.getWidth() * 0.2), this.getHeight() - 20);
-        panel2.setBounds((int) (this.getWidth() * 0.2), 0, (int) (this.getWidth() * 0.8), this.getHeight());
-
-        panel1.setBorder(BorderFactory.createLineBorder(Color.GRAY, 4));
-        panel2.setBorder(BorderFactory.createLineBorder(Color.RED, 4));
+        panel1.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
         panel1.setLayout(new GridLayout(16, 1, 0, 5));
-        panel2.setLayout(null);
 
-        label.setBounds(0, 0, panel2.getWidth(), panel2.getHeight());
+        panel2.setBounds((int) (this.getWidth() * 0.2), 0, (int) (this.getWidth() * 0.8), this.getHeight() - 20);
+        panel2.setLayout(new GridLayout(2,1, 0, 0));
+
+        //label.setBounds(0, 0, panel2.getWidth(), panel2.getHeight());
         label.setLayout(new FlowLayout());
-        label.setOpaque(true);
+        label.setBackground(Color.GRAY);
+        label.setForeground(Color.WHITE);
         label.setFont(new Font(null, Font.BOLD, 30));
+        label.setOpaque(true);
         label.setVerticalAlignment(JLabel.CENTER);
         label.setHorizontalAlignment(JLabel.CENTER);
-        //label.setHorizontalTextPosition(JLabel.CENTER);
+        label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+
+        labelAnswer.setFont(new Font(null, Font.BOLD, 30));
+        labelAnswer.setOpaque(true);
+        labelAnswer.setVerticalAlignment(JLabel.CENTER);
+        labelAnswer.setHorizontalAlignment(JLabel.CENTER);
+
+
         panel2.add(label);
+        panel2.add(labelAnswer);
 
         setListOfButtons();
+
         this.add(panel1);
         this.add(panel2);
-
         this.setVisible(false);
     }
 
@@ -98,5 +108,9 @@ public class FrameResult extends JFrame {
 
     public void setLabel(JLabel label) {
         this.label = label;
+    }
+
+    public JLabel getLabelAnswer() {
+        return labelAnswer;
     }
 }

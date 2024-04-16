@@ -10,67 +10,54 @@ public class FrameTask extends JFrame {
     static Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
     private JLabel labelTask = new JLabel();
     private ActionListener actionListener;
-
-    private JButton jButton1 = new JButton();
-    private JButton jButton2 = new JButton();
-    private JButton jButton3 = new JButton();
-    private JButton jButton4 = new JButton();
+    private JPanel panelTask = new JPanel();
+    private JPanel panelAnswers = new JPanel();
 
     private java.util.List<JButton> listOfButtons = new ArrayList<>();
 
-
-
     public FrameTask(ActionListener actionListener) {
         this.actionListener = actionListener;
-
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setLayout(new FlowLayout());
         this.setSize(screen.width / 2, screen.height / 2);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
 
-        labelTask.setPreferredSize(new Dimension((this.getWidth()), this.getHeight() / 2));
+        labelTask.setBounds(0, 0, this.getWidth(), this.getHeight() / 2);
         labelTask.setFont(new Font(null, Font.BOLD, 40));
         labelTask.setHorizontalAlignment(JLabel.CENTER);
+        labelTask.setOpaque(true);
+        labelTask.setBackground(Color.BLACK);
+        labelTask.setForeground(Color.WHITE);
 
-        jButton1.addActionListener(actionListener);
-        jButton2.addActionListener(actionListener);
-        jButton3.addActionListener(actionListener);
-        jButton4.addActionListener(actionListener);
+        panelTask.setBounds(0, 0, this.getWidth(), this.getHeight() / 2 - 20);
+        panelTask.setLayout(null);
+        panelTask.add(labelTask);
 
-        this.add(labelTask);
-        this.add(jButton1, FlowLayout.CENTER);
-        this.add(jButton2, FlowLayout.CENTER);
-        this.add(jButton3, FlowLayout.CENTER);
-        this.add(jButton4, FlowLayout.CENTER);
+        panelAnswers.setBounds(0, this.getHeight() / 2 - 15, this.getWidth(), this.getHeight() / 2 - 10);
+        panelAnswers.setLayout(new GridLayout(2, 3, 10, 10));
 
-        listOfButtons.add(jButton1);
-        listOfButtons.add(jButton2);
-        listOfButtons.add(jButton3);
-        listOfButtons.add(jButton4);
+        addButtonsOnPanelAnswers();
 
-
+        this.setLayout(null);
+        this.add(panelTask);
+        this.add(panelAnswers);
         this.setVisible(false);
+    }
+
+    private void addButtonsOnPanelAnswers() {
+        JButton button;
+        for (int i = 0; i < 8; i++) {
+            button = new JButton();
+            button.addActionListener(actionListener);
+            button.setFont(new Font(null, Font.BOLD, 30));
+            listOfButtons.add(button);
+            panelAnswers.add(button);
+        }
     }
 
     public JLabel getLabelTask() {
         return labelTask;
-    }
-
-    public JButton getjButton1() {
-        return jButton1;
-    }
-
-    public JButton getjButton2() {
-        return jButton2;
-    }
-
-    public JButton getjButton3() {
-        return jButton3;
-    }
-
-    public JButton getjButton4() {
-        return jButton4;
     }
 
     public List<JButton> getListOfButtons() {

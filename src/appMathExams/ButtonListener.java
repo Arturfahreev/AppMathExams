@@ -55,7 +55,6 @@ public class ButtonListener implements ActionListener {
                     } catch (NullPointerException ex) {
                         return;
                     }
-
                 }
             }
         }
@@ -64,42 +63,58 @@ public class ButtonListener implements ActionListener {
         for (JButton button : listOfTaskButtons) {
             if (e.getSource() == button) {
                 //currentPushedExamButton.setText(""); // erasing text on one of tasks in FrameExam
-                if (button.getText().equals(button.getActionCommand())) {
+                if (button.getText().equals(button.getActionCommand())) { // if button.gettext() equals button.getActionCommand then right button was pushed
                     JOptionPane.showMessageDialog(null, "RIGHT answer!", "Answer", JOptionPane.INFORMATION_MESSAGE );
-                    currentPushedExamButton.setText("<html>" + currentPushedExamButton.getText() + "<br />" +  "RIGHT answer: " + rightAnswerStr + "<br />" + "Your answer: " + button.getText() +  "</html>");
+                    //currentPushedExamButton.setText("<html>" + currentPushedExamButton.getText() + "<br />" +  "RIGHT answer: " + rightAnswerStr + "<br />" + "Your answer: " + button.getText() +  "</html>");
                     currentPushedExamButton.setEnabled(false);
-                    currentPushedExamButton.setBackground(new Color(10, 150, 10));
+                    currentPushedExamButton.setBackground(Color.BLACK);
+                    if (currentPushedExamButton instanceof JButtonColor jButtonColor) {
+                        jButtonColor.setColor(new Color(0, 170, 0));
+                        jButtonColor.setRightAnswer(rightAnswerStr);
+                        jButtonColor.setUserAnswer(button.getText());
+                    }
                     currentPushedExamButton.setOpaque(true);
                     frameResult.setRightAnswers(frameResult.getRightAnswers() + 1);
-                    checkFrameResult();
+                    checkFrameResult(); // checking is it end of exam ?
 
                 } else {
                     JOptionPane.showMessageDialog(null, "WRONG!\n" + "Right answer: " + rightAnswerStr , "Answer", JOptionPane.ERROR_MESSAGE );
-                    currentPushedExamButton.setText("<html>" + currentPushedExamButton.getText() + "<br />" +  "RIGHT answer: " + rightAnswerStr + "<br />" + "Your answer: " + button.getText() +  "</html>");
+                    //currentPushedExamButton.setText("<html>" + currentPushedExamButton.getText() + "<br />" +  "RIGHT answer: " + rightAnswerStr + "<br />" + "Your answer: " + button.getText() +  "</html>");
                     currentPushedExamButton.setEnabled(false);
-                    currentPushedExamButton.setBackground(Color.PINK);
+                    currentPushedExamButton.setBackground(Color.BLACK);
+                    if (currentPushedExamButton instanceof JButtonColor jButtonColor) {
+                        jButtonColor.setColor(new Color(250, 0, 0));
+                        jButtonColor.setRightAnswer(rightAnswerStr);
+                        jButtonColor.setUserAnswer(button.getText());
+                    }
                     currentPushedExamButton.setOpaque(true);
                     frameResult.setWrongAnswers(frameResult.getWrongAnswers() + 1);
-                    checkFrameResult();
+                    checkFrameResult(); // checking is it end of exam ?
                 }
                 frameTask.setVisible(false);
                 return;
             }
         }
 
+        // sets interaction between buttons of FrameExam and buttons of FrameResult
         for (JButton button : listOfResultButtons) {
             if (e.getSource() == button) {
-                System.out.println(button.getText());
                 int index = listOfResultButtons.indexOf(button);
                 JButton textButton = listOfExameButtons.get(index);
-                frameResult.getLabel().removeAll();
-                frameResult.getLabel().setText(textButton.getText());
-                frameResult.getLabel().setBackground(textButton.getBackground());
 
+                JLabel label = frameResult.getLabel();
+                JLabel labelAnswer = frameResult.getLabelAnswer();
+
+                label.removeAll();
+                label.setText(textButton.getText());
+
+                if (textButton instanceof JButtonColor jButtonColor) {
+                    labelAnswer.setText("<html>" +  "RIGHT answer: " + jButtonColor.getRightAnswer() + "<br />" + "Your answer: " + jButtonColor.getUserAnswer() +  "</html>");
+                }
             }
         }
     }
-
+    //sets new text of buttons with random right answer
     private void setNewButtons(int rightAnswer) {
         rightAnswerStr = String.valueOf(rightAnswer);
         //listOfTaskButtons = frameTask.getListOfButtons();
@@ -107,36 +122,38 @@ public class ButtonListener implements ActionListener {
         int randomButton = random.nextInt(listOfTaskButtons.size());
 
         for (JButton button : listOfTaskButtons) {
-            button.setText(String.valueOf(wrongAnswer));
-            button.setActionCommand("");
+            button.setText(String.valueOf(wrongAnswer)); //set random answer to all buttons
+            button.setActionCommand(""); //this means that button is wrong
             wrongAnswer += 10;
         }
         listOfTaskButtons.get(randomButton).setText(rightAnswerStr); //set right answer to random button
         listOfTaskButtons.get(randomButton).setActionCommand(rightAnswerStr); // can to check that buttons contains right answer
     }
-
+    // checking the end of exam and needing of showing FrameResult
     public void checkFrameResult() {
-        if (frameExam.checkEnableButtons() == true) {
+        if (frameExam.checkEnableButtons() == true) { // if there is at least one enable FrameExam button then exam continues
             return;
         } else {
             frameTask.setVisible(false);
-            frameResult.setListOfTasks(frameExam.getListButtons());
-            if (frameResult.getWrongAnswers() > 2) {
-                JOptionPane.showMessageDialog(null, "Exam is FAILED", "WARNING!", JOptionPane.ERROR_MESSAGE);
-            } else JOptionPane.showMessageDialog(null, "Exam is PASSED", "Congratulations!", JOptionPane.INFORMATION_MESSAGE);
-
-            frameResult.setVisible(true);
             listOfResultButtons = frameResult.getListOfButtons();
             setColorOfResultButtons();
-        }
 
+            if (frameResult.getWrongAnswers() > 2) {
+                JOptionPane.showMessageDialog(null, "Exam is FAILED", "WARNING!", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Exam is PASSED", "Congratulations!", JOptionPane.INFORMATION_MESSAGE);
+            }
+            frameResult.setVisible(true);
+        }
     }
 
     private void setColorOfResultButtons() {
         for (int i = 0; i < listOfResultButtons.size(); i++) {
             JButton buttonResult = listOfResultButtons.get(i);
             JButton buttonExam = listOfExameButtons.get(i);
-            buttonResult.setBackground(buttonExam.getBackground());
+            if (buttonExam instanceof JButtonColor jButtonColor) {
+                buttonResult.setBackground(jButtonColor.getColor());
+            }
         }
     }
 
