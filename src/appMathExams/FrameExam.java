@@ -17,7 +17,7 @@ public class FrameExam extends JFrame {
     private ActionListener actionListener;
 
     private java.util.List<JButton> listButtons = new ArrayList<>(); // list of buttons Tasks on FrameExam
-    private java.util.Map<String, Integer> mapTask = new HashMap<>(); // map saving next of Task and right answer
+    //private java.util.Map<String, Integer> mapTask = new HashMap<>(); // map saving next of Task and right answer
 
     public FrameExam(ActionListener actionListener) {
         this.actionListener = actionListener;
@@ -34,9 +34,9 @@ public class FrameExam extends JFrame {
 
     public void setTasksAndButtons() { //sets Tasks and Buttons on FrameExam
         listButtons.clear(); // clear list of buttons
-        mapTask.clear(); // clear map of Tasks
+        //mapTask.clear(); // clear map of Tasks
 
-        JButton button;
+        JButtonColor button;
         int intOperation = 0;
         int intOne = 0;
         int intTwo = 0;
@@ -63,9 +63,11 @@ public class FrameExam extends JFrame {
                     break;
             }
             button.setText(question); // set text (question) of Task on button
+            button.setRightAnswer(String.valueOf(rightAnswer));
             listButtons.add(button); // add buttons to list
             this.add(button); // add button of Task on Frame Exam
-            mapTask.put(question, rightAnswer); // put question// and right answer to map
+
+            //mapTask.put(question, rightAnswer); // put question// and right answer to map
         }
 
     }
@@ -94,15 +96,15 @@ public class FrameExam extends JFrame {
         return listButtons;
     }
 
-    public Map<String, Integer> getMapTask() {
-        return mapTask;
-    }
+//    public Map<String, Integer> getMapTask() {
+//        return mapTask;
+//    }
 }
 
 class JButtonColor extends JButton {
     private Color color;
-    private String rightAnswer;
-    private String userAnswer;
+    private String rightAnswer = " ";
+    private String userAnswer = " ";
 
     public void setColor(Color color) {
         this.color = color;

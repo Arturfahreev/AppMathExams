@@ -48,7 +48,7 @@ public class FrameTask extends JFrame {
     private void addButtonsOnPanelAnswers() {
         JButton button;
         for (int i = 0; i < 8; i++) {
-            button = new JButton();
+            button = new JButtonColor();
             button.addActionListener(actionListener);
             button.setFont(new Font(null, Font.BOLD, 30));
             listOfButtons.add(button);
