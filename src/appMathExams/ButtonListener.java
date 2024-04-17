@@ -26,6 +26,7 @@ public class ButtonListener implements ActionListener {
         if (e.getSource() == frameMenu.getButtonExam()) {
             if (frameExam != null) {
                 frameExam.setVisible(true);
+                frameExam.setTimer();
                 listOfExamButtons = frameExam.getListButtons();
                 listOfResultButtons = frameResult.getListOfButtons();
                 frameResult.setWrongAnswers(0);

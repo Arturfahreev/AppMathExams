@@ -2,16 +2,25 @@ package appMathExams;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
 import java.util.List;
+import java.util.Timer;
 
 public class FrameExam extends JFrame {
     static final int ROWS = 4; // rows of Task on FrameExam
     static final int COLUMNS = 4; //columns of Task on FrameExam
     static Random random = new Random();
+    private Timer timer;
+    private Thread thread;
+    boolean threadFlag = true;
+    int count;
+    private JPanel panelExam = new JPanel();
+    private JPanel panelTimer = new JPanel();
+    private JLabel labelTimer = new JLabel();
     static Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
     private ActionListener actionListener;
     private java.util.List<JButton> listButtons = new ArrayList<>(); // list of buttons Tasks on FrameExam
@@ -20,13 +29,66 @@ public class FrameExam extends JFrame {
         this.actionListener = actionListener;
 
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        this.setLayout(new GridLayout(ROWS, COLUMNS));
+        //this.setLayout(new GridLayout(ROWS, COLUMNS));
         this.setSize(screen.width, screen.height);
         this.setResizable(false);
         this.addWindowListener(new ExamWindowAdapter());
         this.setVisible(false);
+        this.setLayout(null);
+
+        panelTimer.setBounds(0, 0, this.getWidth(), 30);
+        panelExam.setBounds(0, 30, this.getWidth(), this.getHeight() - 40);
+        panelExam.setLayout(new GridLayout(ROWS, COLUMNS));
+
+        panelTimer.setLayout(new BorderLayout());
+
+        labelTimer.setBackground(Color.BLACK);
+        labelTimer.setOpaque(true);
+        labelTimer.setForeground(Color.RED);
+        labelTimer.setFont(new Font(null, Font.BOLD, 20));
+        labelTimer.setText("Timer: ");
+        labelTimer.setHorizontalAlignment(JLabel.CENTER);
+        panelTimer.add(labelTimer);
+
+        this.add(panelTimer);
+        this.add(panelExam);
 
         setTasksAndButtons();
+    }
+
+    public void setTimer() {
+        count = 1200;
+        threadFlag = true;
+        thread = new Thread() {
+            @Override
+            public void run() {
+                int min = 0;
+                int sec = 0;
+                while (count > 0 && threadFlag == true) {
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    count--;
+                    min = count / 60;
+                    sec = count % 60;
+                    labelTimer.setText("Timer " + min + ":" + sec);
+                }
+                if (count == 0) {
+                    for (JButton button : listButtons) {
+                        button.setEnabled(false);
+                    }
+                    if (FrameExam.this.isVisible()) {
+                        JOptionPane.showMessageDialog(null, "Time is over! Exam FAILED");
+                    }
+                }
+                this.interrupt();
+            }
+        };
+        thread.start();
+
     }
 
     public void setTasksAndButtons() { //sets Tasks and Buttons on FrameExam
@@ -61,7 +123,7 @@ public class FrameExam extends JFrame {
             button.setText(question); // set text (question) of Task on button
             button.setRightAnswer(String.valueOf(rightAnswer));
             listButtons.add(button); // add buttons to list
-            this.add(button); // add button of Task on Frame Exam
+            panelExam.add(button); // add button of Task on Frame Exam
         }
     }
     // checking if there are any enable buttons on FrameExam
@@ -71,6 +133,7 @@ public class FrameExam extends JFrame {
                 return true;
             }
         }
+        threadFlag = false;
         return false;
     }
 
@@ -117,6 +180,7 @@ public class FrameExam extends JFrame {
             if (answer == JOptionPane.YES_OPTION) {
                 FrameExam.this.setVisible(false);
                 FrameExam.this.setNewTasks();
+                threadFlag = false;
                 //FrameExam.this.getContentPane().removeAll(); // remove all from Exam Frame
                 //FrameExam.this.setTasksAndButtons(); // set new Tasks and Buttons before user push Exam button
             }
