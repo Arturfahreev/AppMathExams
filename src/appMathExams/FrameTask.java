@@ -12,6 +12,8 @@ public class FrameTask extends JFrame {
     private ActionListener actionListener;
     private JPanel panelTask = new JPanel();
     private JPanel panelAnswers = new JPanel();
+    private String language = "English";
+
 
     private java.util.List<JButton> listOfButtons = new ArrayList<>();
 
@@ -62,5 +64,8 @@ public class FrameTask extends JFrame {
 
     public List<JButton> getListOfButtons() {
         return listOfButtons;
+    }
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

@@ -29,6 +29,9 @@ public class ButtonListener implements ActionListener {
                 frameExam.setTimer();
                 listOfExamButtons = frameExam.getListButtons();
                 listOfResultButtons = frameResult.getListOfButtons();
+                frameExam.setLanguage(frameMenu.getLanguage());
+                frameTask.setLanguage(frameMenu.getLanguage());
+                frameResult.setLanguage(frameMenu.getLanguage());
                 frameResult.setWrongAnswers(0);
                 frameResult.setRightAnswers(0);
             }

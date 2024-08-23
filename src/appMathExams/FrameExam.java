@@ -18,6 +18,7 @@ public class FrameExam extends JFrame {
     private Thread thread;
     boolean threadFlag = true;
     int count;
+    private String language = "English";
     private JPanel panelExam = new JPanel();
     private JPanel panelTimer = new JPanel();
     private JLabel labelTimer = new JLabel();
@@ -28,7 +29,7 @@ public class FrameExam extends JFrame {
     public FrameExam(ActionListener actionListener) {
         this.actionListener = actionListener;
 
-        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         //this.setLayout(new GridLayout(ROWS, COLUMNS));
         this.setSize(screen.width, screen.height);
         this.setResizable(false);
@@ -81,14 +82,17 @@ public class FrameExam extends JFrame {
                         button.setEnabled(false);
                     }
                     if (FrameExam.this.isVisible()) {
-                        JOptionPane.showMessageDialog(null, "Time is over! Exam FAILED");
+                        if (FrameExam.this.getLanguage().equals("English")) {
+                            JOptionPane.showMessageDialog(null, "Time is over! Exam FAILED");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Время вышло! Экзамен провален!");
+                        }
                     }
                 }
                 this.interrupt();
             }
         };
         thread.start();
-
     }
 
     public void setTasksAndButtons() { //sets Tasks and Buttons on FrameExam
@@ -174,15 +178,32 @@ public class FrameExam extends JFrame {
         }
     }
 
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
     private class ExamWindowAdapter extends WindowAdapter {
-        public void windowClosing(WindowEvent e) { // if close Exam Frame
-            int answer = JOptionPane.showConfirmDialog(null, "Are sure to exit exam?", "Caution!", JOptionPane.YES_NO_OPTION);
-            if (answer == JOptionPane.YES_OPTION) {
-                FrameExam.this.setVisible(false);
-                FrameExam.this.setNewTasks();
-                threadFlag = false;
-                //FrameExam.this.getContentPane().removeAll(); // remove all from Exam Frame
-                //FrameExam.this.setTasksAndButtons(); // set new Tasks and Buttons before user push Exam button
+        public void windowClosing(WindowEvent e) {// if close Exam Frame
+            if (FrameExam.this.getLanguage().equals("English")) {
+                int answer = JOptionPane.showConfirmDialog(null, "Are sure to exit exam?", "Caution!", JOptionPane.YES_NO_OPTION);
+                if (answer == JOptionPane.YES_OPTION) {
+                    FrameExam.this.setVisible(false);
+                    FrameExam.this.setNewTasks();
+                    threadFlag = false;
+                }
+                return;
+            }
+            if (FrameExam.this.getLanguage().equals("Russian")) {
+                int answer = JOptionPane.showConfirmDialog(null, "Вы уверены завершить экзамен?", "Внимание!", JOptionPane.YES_NO_OPTION);
+                if (answer == JOptionPane.YES_OPTION) {
+                    FrameExam.this.setVisible(false);
+                    FrameExam.this.setNewTasks();
+                    threadFlag = false;
+                }
             }
         }
     }
@@ -216,4 +237,6 @@ class JButtonColor extends JButton {
     public void setUserAnswer(String userAnswer) {
         this.userAnswer = userAnswer;
     }
+
+
 }

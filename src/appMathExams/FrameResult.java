@@ -15,6 +15,8 @@ public class FrameResult extends JFrame {
     private JLabel labelAnswer = new JLabel();
     private int rightAnswers = 0;
     private int wrongAnswers = 0;
+    private String language = "English";
+
     private ActionListener actionListener;
     private java.util.List<JButton> listOfButtons = new ArrayList<>();
 
@@ -94,5 +96,8 @@ public class FrameResult extends JFrame {
 
     public JLabel getLabelAnswer() {
         return labelAnswer;
+    }
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }
