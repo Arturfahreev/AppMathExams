@@ -10,37 +10,49 @@ import java.util.*;
 import java.util.List;
 import java.util.Timer;
 
+/**
+ * This class shows the main Frame of exam, which includes Rows and Columns of tasks
+ */
 public class FrameExam extends JFrame {
+
+    // ----------------------------- FIELDS -----------------------------
     static final int ROWS = 4; // rows of Task on FrameExam
     static final int COLUMNS = 4; //columns of Task on FrameExam
+    private JPanel panelExam = new JPanel(); // panel of Exam with tasks
+    private JPanel panelTimer = new JPanel(); // panel for Timer
+    private JLabel labelTimer = new JLabel(); // label for Timew
+    private ActionListener actionListener;
+    private java.util.List<JButton> listButtons = new ArrayList<>(); // list of buttons Tasks on FrameExam
     static Random random = new Random();
     private Timer timer;
     private Thread thread;
     boolean threadFlag = true;
     int count;
     private String language = "English";
-    private JPanel panelExam = new JPanel();
-    private JPanel panelTimer = new JPanel();
-    private JLabel labelTimer = new JLabel();
     static Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-    private ActionListener actionListener;
-    private java.util.List<JButton> listButtons = new ArrayList<>(); // list of buttons Tasks on FrameExam
 
-    public FrameExam(ActionListener actionListener) {
+    // ----------------------------- CONSTRUCTOR -----------------------------
+        public FrameExam(ActionListener actionListener) {
+
         this.actionListener = actionListener;
 
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        //this.setLayout(new GridLayout(ROWS, COLUMNS));
-        this.setSize(screen.width, screen.height);
-        this.setResizable(false);
-        this.addWindowListener(new ExamWindowAdapter());
-        this.setVisible(false);
-        this.setLayout(null);
+        setFrameExamSettings();
+        setPanelTimerSettings();
+        setPanelExamSettings();
 
-        panelTimer.setBounds(0, 0, this.getWidth(), 30);
+        this.add(panelTimer);
+        this.add(panelExam);
+
+        setTasksAndButtons();
+    }
+
+    private void setPanelExamSettings() {
         panelExam.setBounds(0, 30, this.getWidth(), this.getHeight() - 40);
         panelExam.setLayout(new GridLayout(ROWS, COLUMNS));
+    }
 
+    private void setPanelTimerSettings() {
+        panelTimer.setBounds(0, 0, this.getWidth(), 30);
         panelTimer.setLayout(new BorderLayout());
 
         labelTimer.setBackground(Color.BLACK);
@@ -50,11 +62,16 @@ public class FrameExam extends JFrame {
         labelTimer.setText("Timer: ");
         labelTimer.setHorizontalAlignment(JLabel.CENTER);
         panelTimer.add(labelTimer);
+    }
 
-        this.add(panelTimer);
-        this.add(panelExam);
-
-        setTasksAndButtons();
+    private void setFrameExamSettings() {
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        //this.setLayout(new GridLayout(ROWS, COLUMNS));
+        this.setSize(screen.width, screen.height);
+        this.setResizable(false);
+        this.addWindowListener(new ExamWindowAdapter());
+        this.setVisible(false);
+        this.setLayout(null);
     }
 
     public void setTimer() {
@@ -99,21 +116,23 @@ public class FrameExam extends JFrame {
         //listButtons.clear(); // clear list of buttons
 
         JButtonColor button;
-        int intOperation = 0;
-        int intOne = 0;
-        int intTwo = 0;
-        int rightAnswer = 0;
-        String question = "";
+        int intOperation = 0; // it is operation between numbers, example: + - *
+        int intOne = 0; // first int
+        int intTwo = 0; // second int
+        int rightAnswer = 0; // right answer
+        String question = ""; // question in task
 
         for (int i = 0; i < (ROWS * COLUMNS); i++) {
-            intOperation = random.nextInt(3);
+            intOperation = random.nextInt(3); // 0 it is *, 1 it is +, 2 it is -
             intOne = random.nextInt(100);
             intTwo = random.nextInt(100);
-            button = new JButtonColor();
+
+            button = new JButtonColor(); // it is need (ROWS * COLUMNS) new Buttons with tasks
             button.setFont(new Font(null, Font.BOLD, 20));
             button.addActionListener(actionListener);
 
-            switch (intOperation) {
+            switch (intOperation) // depends of number in Operation, creating question and right answer
+            {
                 case 0 : rightAnswer = intOne * intTwo;
                     question = intOne + " * " + intTwo + " = ?";
                     break;
@@ -127,7 +146,7 @@ public class FrameExam extends JFrame {
             button.setText(question); // set text (question) of Task on button
             button.setRightAnswer(String.valueOf(rightAnswer));
             listButtons.add(button); // add buttons to list
-            panelExam.add(button); // add button of Task on Frame Exam
+            panelExam.add(button); // add button of Task on FrameExam
         }
     }
     // checking if there are any enable buttons on FrameExam
@@ -237,6 +256,4 @@ class JButtonColor extends JButton {
     public void setUserAnswer(String userAnswer) {
         this.userAnswer = userAnswer;
     }
-
-
 }
