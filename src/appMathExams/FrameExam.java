@@ -2,7 +2,6 @@ package appMathExams;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -20,16 +19,15 @@ public class FrameExam extends JFrame {
     static final int COLUMNS = 4; //columns of Task on FrameExam
     private JPanel panelExam = new JPanel(); // panel of Exam with tasks
     private JPanel panelTimer = new JPanel(); // panel for Timer
-    private JLabel labelTimer = new JLabel(); // label for Timew
+    private JLabel labelTimer = new JLabel(); // label for Timer
     private ActionListener actionListener;
     private java.util.List<JButtonColor> listButtons = new ArrayList<>(); // list of buttons Tasks on FrameExam
     static Random random = new Random();
-    private Timer timer;
-    private Thread thread;
     boolean threadFlag = true;
-    int count;
+    Thread thread;
     private String language = "English";
     static Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+    private int countTimer = 599;
 
     // ----------------------------- CONSTRUCTOR -----------------------------
         public FrameExam(ActionListener actionListener) {
@@ -69,43 +67,6 @@ public class FrameExam extends JFrame {
         this.setLayout(null);
     }
 
-    public void setTimer() {
-        count = 1200;
-        threadFlag = true;
-        thread = new Thread() {
-            @Override
-            public void run() {
-                int min = 0;
-                int sec = 0;
-                while (count > 0 && threadFlag == true) {
-
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    count--;
-                    min = count / 60;
-                    sec = count % 60;
-                    labelTimer.setText("Timer " + min + ":" + sec);
-                }
-                if (count == 0) {
-                    for (JButton button : listButtons) {
-                        button.setEnabled(false);
-                    }
-                    if (FrameExam.this.isVisible()) {
-                        if (FrameExam.this.getLanguage().equals("English")) {
-                            JOptionPane.showMessageDialog(null, "Time is over! Exam FAILED");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Время вышло! Экзамен провален!");
-                        }
-                    }
-                }
-                this.interrupt();
-            }
-        };
-        thread.start();
-    }
 
     public void setTasksAndButtons() { //sets Tasks and Buttons on FrameExam
         setButtonsInFrameExam();
@@ -155,8 +116,8 @@ public class FrameExam extends JFrame {
             buttonColor.setOpaque(false);
         }
     }
-    // checking if there are any enable buttons on FrameExam
-    public boolean checkEnableButtons() {
+
+    public boolean checkEnableButtons() {  // checking if there are any enable buttons on FrameExam
         for (JButton button : listButtons) {
             if (button.isEnabled()) {
                 return true;
@@ -168,7 +129,7 @@ public class FrameExam extends JFrame {
 
     private class ExamWindowAdapter extends WindowAdapter {
         public void windowClosing(WindowEvent e) {// if close FrameExam
-            if (FrameExam.this.getLanguage().equals("English")) {
+            if (FrameExam.this.getLanguage().equals("English")) { // to make English public static in FrameMenu to all of classes ???
                 int answer = JOptionPane.showConfirmDialog(null, "Are sure to exit exam?", "Caution!", JOptionPane.YES_NO_OPTION);
                 if (answer == JOptionPane.YES_OPTION) {
                     FrameExam.this.setVisible(false);
@@ -186,6 +147,48 @@ public class FrameExam extends JFrame {
                 }
             }
         }
+    }
+
+    public void setTimer() {
+        threadFlag = true;
+        labelTimer.setText("Timer " + (countTimer / 60) + " : " + (countTimer % 60));
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                int countTimerLocal = countTimer;
+                while (countTimerLocal > 0 && threadFlag == true) { // main countdown
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    countTimerLocal--;
+                    labelTimer.setText("Timer " + (countTimerLocal / 60) + " : " + (countTimerLocal % 60));
+                }
+                if (countTimerLocal == 0) {
+                    timeIsOverExitExam(); // if time is over
+                }
+                this.interrupt();
+            }
+        };
+        thread.start();
+    }
+
+    private void timeIsOverExitExam() {
+            for (JButton button : listButtons) {
+                button.setEnabled(false);
+            }
+            if (FrameExam.this.isVisible()) {
+                if (FrameExam.this.getLanguage().equals("English")) {
+                    JOptionPane.showMessageDialog(null, "Time is over! Exam FAILED");
+                    labelTimer.setText("Timer " + 0 + ":" + 0 + "    TIME IS OVER! ");
+                    threadFlag = false;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Время вышло! Экзамен провален!");
+                    labelTimer.setText("Timer " + 0 + ":" + 0 + "    ВРЕМЯ ВЫШЛО! ");
+                    threadFlag = false;
+                }
+            }
     }
 
     public List<JButtonColor> getListButtons() {
