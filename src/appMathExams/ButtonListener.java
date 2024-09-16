@@ -16,7 +16,7 @@ public class ButtonListener implements ActionListener {
     FrameResult frameResult; // need to invoke setter
     List<JButton> listOfTaskButtons;
     List<JButton> listOfResultButtons;
-    List<JButton> listOfExamButtons;
+    List<JButtonColor> listOfExamButtons;
     JButton currentPushedExamButton;
 
     @Override

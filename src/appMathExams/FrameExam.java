@@ -22,7 +22,7 @@ public class FrameExam extends JFrame {
     private JPanel panelTimer = new JPanel(); // panel for Timer
     private JLabel labelTimer = new JLabel(); // label for Timew
     private ActionListener actionListener;
-    private java.util.List<JButton> listButtons = new ArrayList<>(); // list of buttons Tasks on FrameExam
+    private java.util.List<JButtonColor> listButtons = new ArrayList<>(); // list of buttons Tasks on FrameExam
     static Random random = new Random();
     private Timer timer;
     private Thread thread;
@@ -116,6 +116,18 @@ public class FrameExam extends JFrame {
         //listButtons.clear(); // clear list of buttons
 
         JButtonColor button;
+        for (int i = 0; i < (ROWS * COLUMNS) ; i++) {
+            button = new JButtonColor(); // it is need (ROWS * COLUMNS) new Buttons with tasks
+            button.setFont(new Font(null, Font.BOLD, 20));
+            button.addActionListener(actionListener);
+            listButtons.add(button); // add buttons to list
+            panelExam.add(button); // add button of Task on FrameExam
+        }
+
+        setNewTaskForButtons();
+    }
+
+    private void setNewTaskForButtons() {
         int intOperation = 0; // it is operation between numbers, example: + - *
         int intOne = 0; // first int
         int intTwo = 0; // second int
@@ -127,12 +139,7 @@ public class FrameExam extends JFrame {
             intOne = random.nextInt(100);
             intTwo = random.nextInt(100);
 
-            button = new JButtonColor(); // it is need (ROWS * COLUMNS) new Buttons with tasks
-            button.setFont(new Font(null, Font.BOLD, 20));
-            button.addActionListener(actionListener);
-
-            switch (intOperation) // depends of number in Operation, creating question and right answer
-            {
+            switch (intOperation){ // depends of number in Operation, creating question and right answer
                 case 0 : rightAnswer = intOne * intTwo;
                     question = intOne + " * " + intTwo + " = ?";
                     break;
@@ -143,12 +150,15 @@ public class FrameExam extends JFrame {
                     question = intOne + " - " + intTwo + " = ?";
                     break;
             }
-            button.setText(question); // set text (question) of Task on button
-            button.setRightAnswer(String.valueOf(rightAnswer));
-            listButtons.add(button); // add buttons to list
-            panelExam.add(button); // add button of Task on FrameExam
+            JButtonColor buttonColor = listButtons.get(i);
+            buttonColor.setText(question); // set text (question) of Task on button
+            buttonColor.setRightAnswer(String.valueOf(rightAnswer));
+            buttonColor.setEnabled(true);
+            buttonColor.setBackground(null);
+            buttonColor.setOpaque(false);
         }
     }
+
     // checking if there are any enable buttons on FrameExam
     public boolean checkEnableButtons() {
         for (JButton button : listButtons) {
@@ -160,42 +170,42 @@ public class FrameExam extends JFrame {
         return false;
     }
 
-    public List<JButton> getListButtons() {
+    public List<JButtonColor> getListButtons() {
         return listButtons;
     }
 
-    public void setNewTasks() {
-        int intOperation = 0;
-        int intOne = 0;
-        int intTwo = 0;
-        int rightAnswer = 0;
-        String question = "";
-        JButtonColor button;
-
-        for (int i = 0; i < (ROWS * COLUMNS); i++) {
-            intOperation = random.nextInt(3);
-            intOne = random.nextInt(100);
-            intTwo = random.nextInt(100);
-            button = (JButtonColor) listButtons.get(i);
-
-            switch (intOperation) {
-                case 0 : rightAnswer = intOne * intTwo;
-                    question = intOne + " * " + intTwo + " = ?";
-                    break;
-                case 1 : rightAnswer = intOne + intTwo;
-                    question = intOne + " + " + intTwo + " = ?";
-                    break;
-                case 2 : rightAnswer = intOne - intTwo;
-                    question = intOne + " - " + intTwo + " = ?";
-                    break;
-            }
-            button.setText(question); // set text (question) of Task on button
-            button.setRightAnswer(String.valueOf(rightAnswer));
-            button.setEnabled(true);
-            button.setBackground(null);
-            button.setOpaque(false);
-        }
-    }
+//    public void setNewTasks() {
+//        int intOperation = 0;
+//        int intOne = 0;
+//        int intTwo = 0;
+//        int rightAnswer = 0;
+//        String question = "";
+//        JButtonColor button;
+//
+//        for (int i = 0; i < (ROWS * COLUMNS); i++) {
+//            intOperation = random.nextInt(3);
+//            intOne = random.nextInt(100);
+//            intTwo = random.nextInt(100);
+//            button = (JButtonColor) listButtons.get(i);
+//
+//            switch (intOperation) {
+//                case 0 : rightAnswer = intOne * intTwo;
+//                    question = intOne + " * " + intTwo + " = ?";
+//                    break;
+//                case 1 : rightAnswer = intOne + intTwo;
+//                    question = intOne + " + " + intTwo + " = ?";
+//                    break;
+//                case 2 : rightAnswer = intOne - intTwo;
+//                    question = intOne + " - " + intTwo + " = ?";
+//                    break;
+//            }
+//            button.setText(question); // set text (question) of Task on button
+//            button.setRightAnswer(String.valueOf(rightAnswer));
+//            button.setEnabled(true);
+//            button.setBackground(null);
+//            button.setOpaque(false);
+//        }
+//    }
 
     public void setLanguage(String language) {
         this.language = language;
@@ -206,12 +216,12 @@ public class FrameExam extends JFrame {
     }
 
     private class ExamWindowAdapter extends WindowAdapter {
-        public void windowClosing(WindowEvent e) {// if close Exam Frame
+        public void windowClosing(WindowEvent e) {// if close FrameExam
             if (FrameExam.this.getLanguage().equals("English")) {
                 int answer = JOptionPane.showConfirmDialog(null, "Are sure to exit exam?", "Caution!", JOptionPane.YES_NO_OPTION);
                 if (answer == JOptionPane.YES_OPTION) {
                     FrameExam.this.setVisible(false);
-                    FrameExam.this.setNewTasks();
+                    FrameExam.this.setNewTaskForButtons();
                     threadFlag = false;
                 }
                 return;
@@ -220,7 +230,7 @@ public class FrameExam extends JFrame {
                 int answer = JOptionPane.showConfirmDialog(null, "Вы уверены завершить экзамен?", "Внимание!", JOptionPane.YES_NO_OPTION);
                 if (answer == JOptionPane.YES_OPTION) {
                     FrameExam.this.setVisible(false);
-                    FrameExam.this.setNewTasks();
+                    FrameExam.this.setNewTaskForButtons();
                     threadFlag = false;
                 }
             }
