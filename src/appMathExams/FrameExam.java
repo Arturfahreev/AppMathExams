@@ -33,16 +33,12 @@ public class FrameExam extends JFrame {
 
     // ----------------------------- CONSTRUCTOR -----------------------------
         public FrameExam(ActionListener actionListener) {
-
         this.actionListener = actionListener;
-
         setFrameExamSettings();
         setPanelTimerSettings();
         setPanelExamSettings();
-
         this.add(panelTimer);
         this.add(panelExam);
-
         setTasksAndButtons();
     }
 
@@ -54,7 +50,6 @@ public class FrameExam extends JFrame {
     private void setPanelTimerSettings() {
         panelTimer.setBounds(0, 0, this.getWidth(), 30);
         panelTimer.setLayout(new BorderLayout());
-
         labelTimer.setBackground(Color.BLACK);
         labelTimer.setOpaque(true);
         labelTimer.setForeground(Color.RED);
@@ -113,8 +108,12 @@ public class FrameExam extends JFrame {
     }
 
     public void setTasksAndButtons() { //sets Tasks and Buttons on FrameExam
-        //listButtons.clear(); // clear list of buttons
+        setButtonsInFrameExam();
+        setNewTaskForButtons();
+    }
 
+    private void setButtonsInFrameExam() {
+        listButtons.clear();
         JButtonColor button;
         for (int i = 0; i < (ROWS * COLUMNS) ; i++) {
             button = new JButtonColor(); // it is need (ROWS * COLUMNS) new Buttons with tasks
@@ -123,8 +122,6 @@ public class FrameExam extends JFrame {
             listButtons.add(button); // add buttons to list
             panelExam.add(button); // add button of Task on FrameExam
         }
-
-        setNewTaskForButtons();
     }
 
     private void setNewTaskForButtons() {
@@ -158,7 +155,6 @@ public class FrameExam extends JFrame {
             buttonColor.setOpaque(false);
         }
     }
-
     // checking if there are any enable buttons on FrameExam
     public boolean checkEnableButtons() {
         for (JButton button : listButtons) {
@@ -168,51 +164,6 @@ public class FrameExam extends JFrame {
         }
         threadFlag = false;
         return false;
-    }
-
-    public List<JButtonColor> getListButtons() {
-        return listButtons;
-    }
-
-//    public void setNewTasks() {
-//        int intOperation = 0;
-//        int intOne = 0;
-//        int intTwo = 0;
-//        int rightAnswer = 0;
-//        String question = "";
-//        JButtonColor button;
-//
-//        for (int i = 0; i < (ROWS * COLUMNS); i++) {
-//            intOperation = random.nextInt(3);
-//            intOne = random.nextInt(100);
-//            intTwo = random.nextInt(100);
-//            button = (JButtonColor) listButtons.get(i);
-//
-//            switch (intOperation) {
-//                case 0 : rightAnswer = intOne * intTwo;
-//                    question = intOne + " * " + intTwo + " = ?";
-//                    break;
-//                case 1 : rightAnswer = intOne + intTwo;
-//                    question = intOne + " + " + intTwo + " = ?";
-//                    break;
-//                case 2 : rightAnswer = intOne - intTwo;
-//                    question = intOne + " - " + intTwo + " = ?";
-//                    break;
-//            }
-//            button.setText(question); // set text (question) of Task on button
-//            button.setRightAnswer(String.valueOf(rightAnswer));
-//            button.setEnabled(true);
-//            button.setBackground(null);
-//            button.setOpaque(false);
-//        }
-//    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getLanguage() {
-        return language;
     }
 
     private class ExamWindowAdapter extends WindowAdapter {
@@ -236,34 +187,16 @@ public class FrameExam extends JFrame {
             }
         }
     }
-}
 
-class JButtonColor extends JButton {
-    private Color color;
-    private String rightAnswer = " ";
-    private String userAnswer = " ";
-
-    public void setColor(Color color) {
-        this.color = color;
+    public List<JButtonColor> getListButtons() {
+        return listButtons;
     }
 
-    public Color getColor() {
-        return this.color;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
-    public String getRightAnswer() {
-        return rightAnswer;
-    }
-
-    public String getUserAnswer() {
-        return userAnswer;
-    }
-
-    public void setRightAnswer(String rightAnswer) {
-        this.rightAnswer = rightAnswer;
-    }
-
-    public void setUserAnswer(String userAnswer) {
-        this.userAnswer = userAnswer;
+    public String getLanguage() {
+        return language;
     }
 }

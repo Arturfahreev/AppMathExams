@@ -12,9 +12,7 @@ public class FrameMenu extends JFrame implements ActionListener {
     private JMenuBar menuBar = new JMenuBar();
     private JMenu menuSettings = new JMenu("Settings");
     private JMenuItem menuItemChangeLanguage = new JMenuItem("Change to Russian");
-
     private ActionListener actionListener;
-
 
     public FrameMenu(ActionListener actionListener) {
         this.actionListener = actionListener;
