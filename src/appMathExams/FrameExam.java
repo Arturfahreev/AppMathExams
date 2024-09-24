@@ -27,7 +27,7 @@ public class FrameExam extends JFrame {
     Thread thread;
     private String language = "English";
     static Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-    private int countTimer = 599;
+    private int countTimer = 10;
 
     // ----------------------------- CONSTRUCTOR -----------------------------
         public FrameExam(ActionListener actionListener) {
@@ -66,7 +66,6 @@ public class FrameExam extends JFrame {
         this.setVisible(false);
         this.setLayout(null);
     }
-
 
     public void setTasksAndButtons() { //sets Tasks and Buttons on FrameExam
         setButtonsInFrameExam();
@@ -135,6 +134,7 @@ public class FrameExam extends JFrame {
                     FrameExam.this.setVisible(false);
                     FrameExam.this.setNewTaskForButtons();
                     threadFlag = false;
+                    labelTimer.setText("Timer " + (countTimer / 60) + " : " + (countTimer % 60));
                 }
                 return;
             }
@@ -144,6 +144,7 @@ public class FrameExam extends JFrame {
                     FrameExam.this.setVisible(false);
                     FrameExam.this.setNewTaskForButtons();
                     threadFlag = false;
+                    labelTimer.setText("Timer " + (countTimer / 60) + " : " + (countTimer % 60));
                 }
             }
         }
@@ -178,15 +179,15 @@ public class FrameExam extends JFrame {
             for (JButton button : listButtons) {
                 button.setEnabled(false);
             }
-            if (FrameExam.this.isVisible()) {
+            if (FrameExam.this.isVisible()) { // maybe to remove if ?
                 if (FrameExam.this.getLanguage().equals("English")) {
                     JOptionPane.showMessageDialog(null, "Time is over! Exam FAILED");
-                    labelTimer.setText("Timer " + 0 + ":" + 0 + "    TIME IS OVER! ");
                     threadFlag = false;
+                    labelTimer.setText("Timer " + 0 + ":" + 0 + "    TIME IS OVER! ");
                 } else {
                     JOptionPane.showMessageDialog(null, "Время вышло! Экзамен провален!");
-                    labelTimer.setText("Timer " + 0 + ":" + 0 + "    ВРЕМЯ ВЫШЛО! ");
                     threadFlag = false;
+                    labelTimer.setText("Timer " + 0 + ":" + 0 + "    ВРЕМЯ ВЫШЛО! ");
                 }
             }
     }
