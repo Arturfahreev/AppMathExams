@@ -14,7 +14,7 @@ public class FrameTask extends JFrame {
     private JPanel panelAnswers = new JPanel();
     private String language = "English";
     private int numberOfAnswers = 8;
-    private java.util.List<JButton> listOfButtons = new ArrayList<>();
+    private java.util.List<JButtonColor> listOfButtons = new ArrayList<>();
 
     public FrameTask(ActionListener actionListener) {
         this.actionListener = actionListener;
@@ -47,7 +47,7 @@ public class FrameTask extends JFrame {
     }
 
     private void addButtonsOnPanelAnswers() {
-        JButton button;
+        JButtonColor button;
         for (int i = 0; i < numberOfAnswers; i++) {
             button = new JButtonColor();
             button.addActionListener(actionListener);
@@ -61,7 +61,7 @@ public class FrameTask extends JFrame {
         return labelTask;
     }
 
-    public List<JButton> getListOfButtons() {
+    public List<JButtonColor> getListOfButtons() {
         return listOfButtons;
     }
     public void setLanguage(String language) {

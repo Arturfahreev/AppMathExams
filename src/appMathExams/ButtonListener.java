@@ -14,50 +14,44 @@ public class ButtonListener implements ActionListener {
     FrameExam frameExam; // need to invoke setter
     FrameTask frameTask; // need to invoke setter
     FrameResult frameResult; // need to invoke setter
-    List<JButton> listOfTaskButtons;
+    List<JButtonColor> listOfTaskButtons;
     List<JButton> listOfResultButtons;
     List<JButtonColor> listOfExamButtons;
     JButton currentPushedExamButton;
-
     @Override
     public void actionPerformed(ActionEvent e) {
-
         // set FrameExam when EXAM button was pushed
         if (e.getSource() == frameMenu.getButtonExam()) {
             setFrameExamWhenExamButtonPushed();
             return;
         }
-
         // showing TaskFrame with questions and answers
         if (frameExam != null && frameTask != null) {
             if (listOfTaskButtons == null) {
                 listOfTaskButtons = frameTask.getListOfButtons();
             }
-            for (JButton button : listOfExamButtons ) {
-                if (e.getSource() == button) {
-                    currentPushedExamButton = button;
-                    frameTask.setVisible(false); // ?
+            for (JButtonColor buttonExam : listOfExamButtons ) {
+                if (e.getSource() == buttonExam) {
+                    currentPushedExamButton = buttonExam;
+                    frameTask.setVisible(false);
                     frameTask.getLabelTask().removeAll();
-                    frameTask.getLabelTask().setText(button.getText());
+                    frameTask.getLabelTask().setText(buttonExam.getText());
 
-                    if (button instanceof JButtonColor jButtonColor) {
-                        int rightAnswer = Integer.parseInt(jButtonColor.getRightAnswer()); // receive right answer
-                        int wrongAnswer = rightAnswer + 10;
-                        int randomButton = random.nextInt(listOfTaskButtons.size());
 
-                        for (JButton buttonTask : listOfTaskButtons) {
-                            if (buttonTask instanceof JButtonColor jButtonColorTask) {
-                                jButtonColorTask.setText(String.valueOf(wrongAnswer)); //set random answer to all buttons
-                                wrongAnswer += 10;
-                                if (listOfTaskButtons.indexOf(jButtonColorTask) == randomButton) { // ???
-                                    jButtonColorTask.setText(jButtonColor.getRightAnswer());
-                                    jButtonColorTask.setRightAnswer(jButtonColor.getRightAnswer());
-                                }
-                            }
+                    int rightAnswer = Integer.parseInt(buttonExam.getRightAnswer()); // receive right answer
+                    int wrongAnswer = rightAnswer + 10;
+                    int randomButton = random.nextInt(listOfTaskButtons.size());
+
+                    for (JButtonColor buttonTask : listOfTaskButtons) {
+                        buttonTask.setText(String.valueOf(wrongAnswer)); //set random answer to all buttons
+                        wrongAnswer += 10;
+                        if (listOfTaskButtons.indexOf(buttonTask) == randomButton) { // ???
+                            buttonTask.setText(buttonExam.getRightAnswer());
+                            buttonTask.setRightAnswer(buttonExam.getRightAnswer());
                         }
-                        //this.setNewButtons(rightAnswer); //set right answer to random button
-                        frameTask.setVisible(true);
                     }
+                        //this.setNewButtons(rightAnswer); //set right answer to random button
+                    frameTask.setVisible(true);
                     return;
                 }
             }
