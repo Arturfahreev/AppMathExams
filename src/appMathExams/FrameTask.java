@@ -13,8 +13,7 @@ public class FrameTask extends JFrame {
     private JPanel panelTask = new JPanel();
     private JPanel panelAnswers = new JPanel();
     private String language = "English";
-
-
+    private int numberOfAnswers = 8;
     private java.util.List<JButton> listOfButtons = new ArrayList<>();
 
     public FrameTask(ActionListener actionListener) {
@@ -49,7 +48,7 @@ public class FrameTask extends JFrame {
 
     private void addButtonsOnPanelAnswers() {
         JButton button;
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < numberOfAnswers; i++) {
             button = new JButtonColor();
             button.addActionListener(actionListener);
             button.setFont(new Font(null, Font.BOLD, 30));

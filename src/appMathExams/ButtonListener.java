@@ -24,17 +24,7 @@ public class ButtonListener implements ActionListener {
 
         // set FrameExam when EXAM button was pushed
         if (e.getSource() == frameMenu.getButtonExam()) {
-            if (frameExam != null) {
-                frameExam.setVisible(true);
-                frameExam.setTimer();
-                listOfExamButtons = frameExam.getListButtons();
-                listOfResultButtons = frameResult.getListOfButtons();
-                frameExam.setLanguage(frameMenu.getLanguage());
-                frameTask.setLanguage(frameMenu.getLanguage());
-                frameResult.setLanguage(frameMenu.getLanguage());
-                frameResult.setWrongAnswers(0);
-                frameResult.setRightAnswers(0);
-            }
+            setFrameExamWhenExamButtonPushed();
             return;
         }
 
@@ -46,7 +36,7 @@ public class ButtonListener implements ActionListener {
             for (JButton button : listOfExamButtons ) {
                 if (e.getSource() == button) {
                     currentPushedExamButton = button;
-                    frameTask.setVisible(false);
+                    frameTask.setVisible(false); // ?
                     frameTask.getLabelTask().removeAll();
                     frameTask.getLabelTask().setText(button.getText());
 
@@ -59,7 +49,7 @@ public class ButtonListener implements ActionListener {
                             if (buttonTask instanceof JButtonColor jButtonColorTask) {
                                 jButtonColorTask.setText(String.valueOf(wrongAnswer)); //set random answer to all buttons
                                 wrongAnswer += 10;
-                                if (listOfTaskButtons.indexOf(jButtonColorTask) == randomButton) {
+                                if (listOfTaskButtons.indexOf(jButtonColorTask) == randomButton) { // ???
                                     jButtonColorTask.setText(jButtonColor.getRightAnswer());
                                     jButtonColorTask.setRightAnswer(jButtonColor.getRightAnswer());
                                 }
@@ -125,6 +115,22 @@ public class ButtonListener implements ActionListener {
             }
         }
     }
+
+    private void setFrameExamWhenExamButtonPushed() {
+        if (frameExam != null) {
+            frameExam.setTimer();
+            frameExam.setVisible(true);
+            listOfExamButtons = frameExam.getListButtons();
+            listOfResultButtons = frameResult.getListOfButtons();
+            frameExam.setLanguage(frameMenu.getLanguage()); // need to make global variable of language
+            frameTask.setLanguage(frameMenu.getLanguage());
+            frameResult.setLanguage(frameMenu.getLanguage());
+            frameResult.setWrongAnswers(0);
+            frameResult.setRightAnswers(0);
+        }
+        return;
+    }
+
     // checking the end of exam and needing of showing FrameResult
     public void checkFrameResult() {
         if (frameExam.checkEnableButtons() == true) { // if there is at least one enable FrameExam button then exam continues
