@@ -18,6 +18,7 @@ public class Main {
             buttonListener.setFrameExam(frameExam);
             buttonListener.setFrameTask(frameTask);
             buttonListener.setFrameResult(frameResult);
+            buttonListener.setListsOfButtons();
         };
         SwingUtilities.invokeLater(runnable);
     }
