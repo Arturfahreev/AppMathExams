@@ -18,7 +18,7 @@ public class FrameResult extends JFrame {
     private String language = "English";
 
     private ActionListener actionListener;
-    private java.util.List<JButton> listOfButtons = new ArrayList<>();
+    private java.util.List<JButtonColor> listOfButtons = new ArrayList<>();
 
     public FrameResult(ActionListener actionListener) {
         this.actionListener = actionListener;
@@ -60,9 +60,9 @@ public class FrameResult extends JFrame {
     }
 
     public void setListOfButtons() {
-        JButton button;
+        JButtonColor button;
         for (int i = 1; i < FrameExam.COLUMNS * FrameExam.ROWS + 1; i++) {
-            button = new JButton();
+            button = new JButtonColor();
             button.setText("Task " + i);
             button.addActionListener(actionListener);
             button.setOpaque(true);
@@ -86,7 +86,7 @@ public class FrameResult extends JFrame {
         this.wrongAnswers = wrongAnswers;
     }
 
-    public List<JButton> getListOfButtons() {
+    public List<JButtonColor> getListOfButtons() {
         return listOfButtons;
     }
 
