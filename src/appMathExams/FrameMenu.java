@@ -12,21 +12,32 @@ public class FrameMenu extends JFrame implements ActionListener {
     private JMenuBar menuBar = new JMenuBar();
     private JMenu menuSettings = new JMenu("Settings");
     private JMenuItem menuItemChangeLanguage = new JMenuItem("Change to Russian");
+    private JMenuItem menuItemSetTimer10Minutes = new JMenuItem("Set Timer 10 min");
+    private JMenuItem menuItemSetTimer20Minutes = new JMenuItem("Set Timer 20 min");
+    private JMenu subMenuSetTimer = new JMenu("Set Timer");
     private ActionListener actionListener;
+    private FrameExam frameExam;
 
-    public FrameMenu(ActionListener actionListener) {
+    public FrameMenu(ActionListener actionListener, FrameExam frameExam) {
+        this.frameExam = frameExam;
         this.actionListener = actionListener;
 
         labelMain.setLayout(null);
         labelMain.setIcon(new ImageIcon("Background.png"));
 
-        buttonExam.setBounds(50, 50, 100, 50);
+        buttonExam.setBounds(30, 50, 150, 50);
         buttonExam.setFont(new Font(null, Font.BOLD, 20));
         buttonExam.addActionListener(actionListener);
         labelMain.add(buttonExam);
 
         menuItemChangeLanguage.addActionListener(this);
+        //menuItemSetTimer.addActionListener(this);
+        menuItemSetTimer10Minutes.addActionListener(this);
+        menuItemSetTimer20Minutes.addActionListener(this);
+        subMenuSetTimer.add(menuItemSetTimer10Minutes);
+        subMenuSetTimer.add(menuItemSetTimer20Minutes);
         menuSettings.add(menuItemChangeLanguage);
+        menuSettings.add(subMenuSetTimer);
         menuBar.add(menuSettings);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,6 +71,14 @@ public class FrameMenu extends JFrame implements ActionListener {
                 buttonExam.setText("EXAM");
                 return;
             }
+        }
+        if (e.getSource() == menuItemSetTimer10Minutes) {
+            frameExam.setCountTimer(599);
+            return;
+        }
+        if (e.getSource() == menuItemSetTimer20Minutes) {
+            frameExam.setCountTimer(1199);
+            return;
         }
     }
 

@@ -29,6 +29,7 @@ public class FrameExam extends JFrame {
     static Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
     private int countTimer = 599;
 
+
     // ----------------------------- CONSTRUCTOR -----------------------------
         public FrameExam(ActionListener actionListener) {
         this.actionListener = actionListener;
@@ -202,5 +203,8 @@ public class FrameExam extends JFrame {
 
     public String getLanguage() {
         return language;
+    }
+    public void setCountTimer(int countTimer) {
+        this.countTimer = countTimer;
     }
 }

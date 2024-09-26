@@ -9,8 +9,8 @@ public class Main {
 
             ButtonListener buttonListener = new ButtonListener();
 
-            FrameMenu frameMenu = new FrameMenu(buttonListener);
             FrameExam frameExam = new FrameExam(buttonListener);
+            FrameMenu frameMenu = new FrameMenu(buttonListener, frameExam);
             FrameTask frameTask = new FrameTask(buttonListener);
             FrameResult frameResult = new FrameResult(buttonListener);
 
