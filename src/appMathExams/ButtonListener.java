@@ -46,32 +46,18 @@ public class ButtonListener implements ActionListener {
             }
         }
     }
-    private void setInteractionBetweenButtonsFrameExamAndFrameResult(JButton button) {
-        int index = listOfResultButtons.indexOf(button);
-        JButtonColor textButton = listOfExamButtons.get(index);
-        frameResult.getLabel().removeAll();
-        frameResult.getLabel().setText(textButton.getText());
-        frameResult.getLabelAnswer().setText("<html>" +  "RIGHT answer: " + textButton.getRightAnswer() + "<br />" + "Your answer: " + textButton.getUserAnswer() +  "</html>");
-        frameResult.getLabelAnswer().setForeground(textButton.getColor());
-    }
 
-    private void checkingPushedButtonRightOrWrongAnswer(JButtonColor buttonTask) {
-        int answer = JOptionPane.showConfirmDialog(null, "Are you sure?", "Caution!", JOptionPane.YES_NO_OPTION);
-        if (answer == JOptionPane.YES_OPTION) {
-            currentPushedExamButton.setEnabled(false);
-            currentPushedExamButton.setBackground(Color.BLACK);
-            currentPushedExamButton.setOpaque(true);
-            currentPushedExamButton.setUserAnswer(buttonTask.getText());
-            if (buttonTask.getText().equals(buttonTask.getRightAnswer())) {
-                currentPushedExamButton.setColor(new Color(0, 170, 0));
-                frameResult.setRightAnswers(frameResult.getRightAnswers() + 1); // need to nullify
-            } else {
-                currentPushedExamButton.setColor(new Color(250, 0, 0));
-                frameResult.setWrongAnswers(frameResult.getWrongAnswers() + 1);
-            }
-            frameTask.setVisible(false);
-            checkEnableButtons(); // checking is it end of exam ?
+    private void setFrameExamWhenExamButtonPushed() {
+        if (frameExam != null && frameTask != null && frameResult != null) {
+            frameExam.setTimer();
+            frameExam.setVisible(true);
+            frameExam.setLanguage(frameMenu.getLanguage()); // need to make global variable of language
+            frameTask.setLanguage(frameMenu.getLanguage());
+            frameResult.setLanguage(frameMenu.getLanguage());
+            frameResult.setWrongAnswers(0);
+            frameResult.setRightAnswers(0);
         }
+        return;
     }
 
     private void showingTaskFrameWithQuestionsAndAnswers(JButtonColor buttonExam) {
@@ -94,18 +80,46 @@ public class ButtonListener implements ActionListener {
         }
         frameTask.setVisible(true);
     }
-
-    private void setFrameExamWhenExamButtonPushed() {
-        if (frameExam != null && frameTask != null && frameResult != null) {
-            frameExam.setTimer();
-            frameExam.setVisible(true);
-            frameExam.setLanguage(frameMenu.getLanguage()); // need to make global variable of language
-            frameTask.setLanguage(frameMenu.getLanguage());
-            frameResult.setLanguage(frameMenu.getLanguage());
-            frameResult.setWrongAnswers(0);
-            frameResult.setRightAnswers(0);
+    private void checkingPushedButtonRightOrWrongAnswer(JButtonColor buttonTask) {
+        int answer = JOptionPane.CLOSED_OPTION;
+        if (frameMenu.getLanguage().equals("English")) {
+            answer = JOptionPane.showConfirmDialog(null, "Are you sure?", "Caution!", JOptionPane.YES_NO_OPTION);
         }
-        return;
+        if (frameMenu.getLanguage().equals("Russian")) {
+            UIManager.put("OptionPane.yesButtonText", "Да");
+            UIManager.put("OptionPane.noButtonText", "Нет");
+            answer = JOptionPane.showConfirmDialog(null, "Подтверждаете ответ?", "Внимание!", JOptionPane.YES_NO_OPTION);
+        }
+        if (answer == JOptionPane.YES_OPTION) {
+            currentPushedExamButton.setEnabled(false);
+            currentPushedExamButton.setBackground(Color.BLACK);
+            currentPushedExamButton.setOpaque(true);
+            currentPushedExamButton.setUserAnswer(buttonTask.getText());
+            if (buttonTask.getText().equals(buttonTask.getRightAnswer())) {
+                currentPushedExamButton.setColor(new Color(0, 170, 0));
+                frameResult.setRightAnswers(frameResult.getRightAnswers() + 1); // need to nullify
+            } else {
+                currentPushedExamButton.setColor(new Color(250, 0, 0));
+                frameResult.setWrongAnswers(frameResult.getWrongAnswers() + 1);
+            }
+            frameTask.setVisible(false);
+            checkEnableButtons(); // checking is it end of exam ?
+        }
+    }
+    private void setInteractionBetweenButtonsFrameExamAndFrameResult(JButton button) {
+        int index = listOfResultButtons.indexOf(button);
+        JButtonColor textButton = listOfExamButtons.get(index);
+        frameResult.getLabel().removeAll();
+        frameResult.getLabel().setText(textButton.getText());
+        frameResult.getLabelAnswer().setForeground(textButton.getColor());
+        if (frameMenu.getLanguage().equals("English")) {
+            frameResult.getLabelAnswer().setText("<html>" +  "Right answer: " + textButton.getRightAnswer() +
+                    "<br />" + "Your answer: " + textButton.getUserAnswer() +  "</html>");
+        }
+        if (frameMenu.getLanguage().equals("Russian")) {
+            frameResult.getLabelAnswer().setText("<html>" +  "Правильный ответ: " + textButton.getRightAnswer() +
+                    "<br />" + "Ваш ответ: " + textButton.getUserAnswer() +  "</html>");
+        }
     }
 
     // checking the end of exam and needing of showing FrameResult
@@ -115,13 +129,21 @@ public class ButtonListener implements ActionListener {
         } else {
             frameTask.setVisible(false);
             setColorOfResultButtons();
-            if (frameResult.getWrongAnswers() > 0) {
-                JOptionPane.showMessageDialog(null, "Exam is FAILED. Count of wrong answers: " + frameResult.getWrongAnswers(), "WARNING!", JOptionPane.ERROR_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Exam is PASSED. Count of right answers: " + frameResult.getRightAnswers(), "Congratulations!", JOptionPane.INFORMATION_MESSAGE);
+            if (frameMenu.getLanguage().equals("English")) {
+                if (frameResult.getWrongAnswers() > 0) {
+                    JOptionPane.showMessageDialog(null, "Exam is FAILED. Count of wrong answers: " + frameResult.getWrongAnswers(), "WARNING!", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Exam is PASSED. Count of right answers: " + frameResult.getRightAnswers(), "Congratulations!", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
-            frameResult.getLabel().setText("Choose the Task");
-            frameResult.getLabelAnswer().setText(" ");
+            if (frameMenu.getLanguage().equals("Russian")) {
+                if (frameResult.getWrongAnswers() > 0) {
+                    JOptionPane.showMessageDialog(null, "Экзамен ПРОВАЛЕН. Количество неправильных ответов: " + frameResult.getWrongAnswers(), "WARNING!", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Экзамен СДАН. Количество правильных ответов: " + frameResult.getRightAnswers(), "Congratulations!", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+            setInteractionBetweenButtonsFrameExamAndFrameResult(listOfResultButtons.get(0)); //shows first Task on FrameResult when exam finished
             frameResult.setVisible(true);
         }
     }
