@@ -67,3 +67,5 @@ public class FrameMenu extends JFrame implements ActionListener {
         return language;
     }
 }
+
+enum Language {ENGLISH, RUSSIAN}

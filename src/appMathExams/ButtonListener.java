@@ -58,24 +58,19 @@ public class ButtonListener implements ActionListener {
     private void checkingPushedButtonRightOrWrongAnswer(JButtonColor buttonTask) {
         int answer = JOptionPane.showConfirmDialog(null, "Are you sure?", "Caution!", JOptionPane.YES_NO_OPTION);
         if (answer == JOptionPane.YES_OPTION) {
+            currentPushedExamButton.setEnabled(false);
+            currentPushedExamButton.setBackground(Color.BLACK);
+            currentPushedExamButton.setOpaque(true);
+            currentPushedExamButton.setUserAnswer(buttonTask.getText());
             if (buttonTask.getText().equals(buttonTask.getRightAnswer())) {
-                currentPushedExamButton.setEnabled(false);
-                currentPushedExamButton.setBackground(Color.BLACK);
-                currentPushedExamButton.setOpaque(true);
                 currentPushedExamButton.setColor(new Color(0, 170, 0));
-                currentPushedExamButton.setUserAnswer(buttonTask.getText());
                 frameResult.setRightAnswers(frameResult.getRightAnswers() + 1); // need to nullify
-                checkEnableButtons(); // checking is it end of exam ?
             } else {
-                currentPushedExamButton.setEnabled(false);
-                currentPushedExamButton.setBackground(Color.BLACK);
-                currentPushedExamButton.setOpaque(true);
                 currentPushedExamButton.setColor(new Color(250, 0, 0));
-                currentPushedExamButton.setUserAnswer(buttonTask.getText());
                 frameResult.setWrongAnswers(frameResult.getWrongAnswers() + 1);
-                checkEnableButtons(); // checking is it end of exam ?
             }
             frameTask.setVisible(false);
+            checkEnableButtons(); // checking is it end of exam ?
         }
     }
 
