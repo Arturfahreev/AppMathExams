@@ -15,31 +15,16 @@ public class FrameMenu extends JFrame implements ActionListener {
     private JMenuItem menuItemSetTimer10Minutes = new JMenuItem("Set Timer 10 min");
     private JMenuItem menuItemSetTimer20Minutes = new JMenuItem("Set Timer 20 min");
     private JMenu subMenuSetTimer = new JMenu("Set Timer");
-    private ActionListener actionListener;
     private FrameExam frameExam;
 
     public FrameMenu(ActionListener actionListener, FrameExam frameExam) {
         this.frameExam = frameExam;
-        this.actionListener = actionListener;
+        setLabelMainAndButtonExam(actionListener);
+        setMenuBarAndItems();
+        setFrameMenuSettings();
+    }
 
-        labelMain.setLayout(null);
-        labelMain.setIcon(new ImageIcon("Background.png"));
-
-        buttonExam.setBounds(30, 50, 150, 50);
-        buttonExam.setFont(new Font(null, Font.BOLD, 20));
-        buttonExam.addActionListener(actionListener);
-        labelMain.add(buttonExam);
-
-        menuItemChangeLanguage.addActionListener(this);
-        //menuItemSetTimer.addActionListener(this);
-        menuItemSetTimer10Minutes.addActionListener(this);
-        menuItemSetTimer20Minutes.addActionListener(this);
-        subMenuSetTimer.add(menuItemSetTimer10Minutes);
-        subMenuSetTimer.add(menuItemSetTimer20Minutes);
-        menuSettings.add(menuItemChangeLanguage);
-        menuSettings.add(subMenuSetTimer);
-        menuBar.add(menuSettings);
-
+    private void setFrameMenuSettings() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("MATH EXAMS");
         this.setResizable(false);
@@ -48,6 +33,26 @@ public class FrameMenu extends JFrame implements ActionListener {
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    private void setMenuBarAndItems() {
+        menuItemChangeLanguage.addActionListener(this);
+        menuItemSetTimer10Minutes.addActionListener(this);
+        menuItemSetTimer20Minutes.addActionListener(this);
+        subMenuSetTimer.add(menuItemSetTimer10Minutes);
+        subMenuSetTimer.add(menuItemSetTimer20Minutes);
+        menuSettings.add(menuItemChangeLanguage);
+        menuSettings.add(subMenuSetTimer);
+        menuBar.add(menuSettings);
+    }
+
+    private void setLabelMainAndButtonExam(ActionListener actionListener) {
+        labelMain.setLayout(null);
+        labelMain.setIcon(new ImageIcon("Background.png"));
+        buttonExam.setBounds(30, 50, 150, 50);
+        buttonExam.setFont(new Font(null, Font.BOLD, 20));
+        buttonExam.addActionListener(actionListener);
+        labelMain.add(buttonExam);
     }
 
     public JButton getButtonExam() {
